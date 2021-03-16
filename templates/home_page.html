@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>first_page</title>
+    <link rel="stylesheet" href="/static/commons.css">
+</head>
+<body>
+    <div  style="background-color: lightgray;margin: 38px 0px;height: 58px;width: 100%">
+        <h2 style="color: orange;text-align: center;line-height: 58px">
+            橙联自动化平台
+        </h2>
+    </div>
+    <div  style="height:800px;width: 100%;display: flex ">
+        <div style="height: 400px;width: 15%;border: 1px solid blanchedalmond;display: block" >
+                <div class="menu">
+                    <div class="menu-item active" >接口自动化</div>
+
+                    <div class="content hide" >基础数据配置</div>
+
+
+                </div>
+                <div class="menu">
+                    <div class="menu-item" >接口项目配置</div>
+                    <div class="content hide">内容</div>
+                </div>
+                <div class="menu">
+                    <div class="menu-item" >标题三</div>
+                    <div class="content hide">内容</div>
+                </div>
+                <div class="menu">
+                    <div class="menu-item" >标题四</div>
+                    <div class="content hide">内容2</div>
+                </div>
+        </div>
+        <div style="width: 83%;display: block;margin-left: 30px; border-right: 1px solid lightgray;">
+            <div style="width: 90%;height: 100px;margin-top: 30px;margin-left: 40px">
+                <span class="jq_name">接口名称:</span>
+                <input type="text" placeholder="自定义">
+
+                <span class="jq_name">项目类型:</span>
+                <input type="text">
+
+                <span class="jq_name">创建人:</span>
+                <input type="text">
+
+            </div>
+
+            <div style="width: 90%; display: block">
+                <div style="height: 38px">
+                    <input  type="button" value="查询" class="jq_button">
+                    <input type="button" value="新增" class="jq_button">
+                    <input type="button" value="修改" class="jq_button">
+                    <input type="button" value="删除" class="jq_button">
+
+                 </div>
+                <div style="width: 100%;height: 38px; display: block">
+                    <table style="width: 90%">
+                        <thead style="width: 80%">
+                            <tr>
+                                <th class="jq_th" >
+                                    <input type="checkbox">
+                                </th>
+                                <th class="jq_th">
+                                    <div>序号</div>
+                                </th>
+                                <th class="jq_th" >
+                                    <div>项目名称</div>
+                                </th>
+                                <th class="jq_th">
+                                    <div>url</div>
+                                </th>
+                                <th class="jq_th">
+                                    <div>执行结果</div>
+                                </th>
+                                <th class="jq_th">
+                                    <div>创建时间</div>
+                                </th>
+                                <th class="jq_th">
+                                    <div>修改时间</div>
+                                </th>
+                                <th class="jq_th">
+                                    <div>修改人</div>
+                                </th>
+                        </thead>
+                    </table>
+
+                </div>
+
+                <div style="width: 100%;min-height: 350px;border: 1px solid hotpink ">
+                    <table>
+                        {% for row in user_list %}
+
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <div class="add_css " id="add_hide">
+        <form>
+            <p>
+                <label for="project">项目名称:</label>
+                <input type="text" name="project" placeholder="请输入项目英文名称">
+            </p>
+            <p>
+                <label for="url">URL:</label>
+                <input type="text" name="url" placeholder="请输入URL">
+                <label for="data">报文:</label>
+                <input type="text" name="data" placeholder="请输入报文">
+                <label for="header">请求头:</label>
+                <input type="text" name="header" placeholder="请输入请求头">
+            </p>
+
+        </form>
+
+    </div>
+
+
+
+
+    <script src="/static/jquery.js"></script>
+    <script>
+        $('.menu-item,.content').click(function () {
+            $(this).addClass('active').siblings().removeClass('active');
+            $('.content').children().eq($(this).index()).removeClass('hide').siblings().addClass('hide')
+            $(this).next().removeClass('hide').parent().siblings().find('.content').addClass('hide');
+
+        });
+
+    </script>
+</body>
+</html>

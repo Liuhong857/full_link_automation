@@ -1,0 +1,57 @@
+.hide{
+            display: none;
+        }
+.active{
+            background-color: darkkhaki;
+        }
+.menu{
+            height: 38px;
+            background-color: #eeeeee;
+            line-height: 38px;
+
+        }
+
+
+.menu .menu-item{
+            float: left;
+            border-right: 1px solid red;
+            padding: 0 5px;
+            cursor: pointer;
+            padding-left: 20px;
+
+        }
+.content{
+            min-height: 38px;
+            border: 1px solid #eeeeee;
+            padding-left: 40px;
+            float: right;
+
+        }
+/*.item{*/
+            /*position: relative;*/
+            /*width: 150px;*/
+
+.jq_name{
+    margin: 10px 10px 10px 30px;
+}
+.jq_button{
+    color: orange;float: right;margin: 10px;
+}
+.jq_button:hover{
+    background-color: aquamarine;
+}
+.jq_th{
+    width: 10%;
+    border: 1px solid gray;
+}
+.add_css{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 500px;
+    height: 400px;
+    margin-left: -250px;
+    margin-top: -250px;
+    background-color: #eeeeee;
+    z-index: 10;
+}
