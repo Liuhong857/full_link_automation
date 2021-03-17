@@ -48,10 +48,10 @@
 
             <div style="width: 90%; display: block">
                 <div style="height: 38px">
-                    <input  type="button" value="查询" class="jq_button">
-                    <input type="button" value="新增" class="jq_button">
-                    <input type="button" value="修改" class="jq_button">
-                    <input type="button" value="删除" class="jq_button">
+                    <input id="s1"  type="button" value="查询" class="jq_button">
+                    <input id="a1" type="button" value="新增" class="jq_button">
+                    <input id="u1" type="button" value="修改" class="jq_button">
+                    <input id="d1" type="button" value="删除" class="jq_button">
 
                  </div>
                 <div style="width: 100%;height: 38px; display: block">
@@ -112,21 +112,39 @@
 
     </div>
 
-    <div class="add_css " id="add_hide">
-        <form>
+    <div class="add_css hide " id="add_hide">
+        <div name="add" style="margin: 10px 0px 10px 0px;color: black;background-color: darkgrey;font-size: 20px">
+            新增
+        </div>
+        <form action="/page/" method="POST">
+            <p>
+                 <label for="operation_name"></label>
+                <input name="operation_name" type="text" style="display: none" value="add">
+
+            </p>
             <p>
                 <label for="project">项目名称:</label>
                 <input type="text" name="project" placeholder="请输入项目英文名称">
+                <label for="project_name">名称:</label>
+                <input type="text" name="project_name" placeholder="请输入接口名称">
             </p>
             <p>
                 <label for="url">URL:</label>
                 <input type="text" name="url" placeholder="请输入URL">
                 <label for="data">报文:</label>
                 <input type="text" name="data" placeholder="请输入报文">
+
+            </p>
+            <p>
                 <label for="header">请求头:</label>
                 <input type="text" name="header" placeholder="请输入请求头">
+                <label for="method">请求方式:</label>
+                <input type="text" name="method" placeholder="请输入请求头">
             </p>
-
+            <div style="margin-top: 200px">
+                <input id="i1" type="submit" value="提交" >
+                <input id="i2" type="button" value="取消">
+            </div>
         </form>
 
     </div>
@@ -138,8 +156,21 @@
     <script>
         $('.menu-item,.content').click(function () {
             $(this).addClass('active').siblings().removeClass('active');
-            $('.content').children().eq($(this).index()).removeClass('hide').siblings().addClass('hide')
+            $('.content').children().eq($(this).index()).removeClass('hide').siblings().addClass('hide');
             $(this).next().removeClass('hide').parent().siblings().find('.content').addClass('hide');
+
+        });
+        $('#i2').click(function () {
+            $(this).parent().parent().parent().addClass('hide');
+            alert('取消成功')
+        });
+        $('#i1').click(function () {
+            $(this).parent().parent().parent().addClass('hide');
+            alert('提交成功')
+        });
+        $('#a1').click(function () {
+            $(this).parent().parent().parent().parent().next().removeClass('hide');
+            console.log(2)
 
         });
 
