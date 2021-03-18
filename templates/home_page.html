@@ -35,14 +35,17 @@
         </div>
         <div style="width: 83%;display: block;margin-left: 30px; border-right: 1px solid lightgray;">
             <div style="width: 90%;height: 100px;margin-top: 30px;margin-left: 40px">
-                <span class="jq_name">接口名称:</span>
-                <input type="text" placeholder="自定义">
+                <form id="form1" action="/page/" method="post">
 
-                <span class="jq_name">项目类型:</span>
-                <input type="text">
+                    <label for="api_name" class="jq_name">接口名称:</label>
+                    <input type="text" name="api_name" placeholder="自定义">
 
-                <span class="jq_name">创建人:</span>
-                <input type="text">
+                    <label for="project" class="jq_name">项目类型:</label>
+                    <input name="project" type="text">
+
+                    <label for="create_user" class="jq_name">创建人:</label>
+                    <input name="create_user" type="text">
+                </form>
 
             </div>
 
@@ -88,18 +91,20 @@
                 </div>
 
                 <div style="width: 100%;min-height: 350px;border: 1px solid hotpink ">
-                    <table>
-                        {% for row in user_list %}
-
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
+                    <table style="height: 38px">
+                        {% for row in data  %}
+                            <tr>
+                                <td>{{ row.id }}</td>
+                                <td>{{ row.project}}</td>
+                                <td>{{ row.api_name }}</td>
+                                <td>{{ row.api_url }}</td>
+                                <td>{{ row.api_data }}</td>
+                                <td>{{ row.api_header }}</td>
+                                <td>{{ row.api_method }}</td>
+                                <td>{{ row.api_response }}</td>
+                                <td>{{ row.create_time }}</td>
+                                <td>{{ row.modify_user_code }}</td>
+                            </tr>
                         {% endfor %}
                     </table>
 
@@ -118,7 +123,7 @@
         </div>
         <form action="/page/" method="POST">
             <p>
-                 <label for="operation_name"></label>
+                <label for="operation_name"></label>
                 <input name="operation_name" type="text" style="display: none" value="add">
 
             </p>
@@ -143,7 +148,8 @@
             </p>
             <div style="margin-top: 200px">
                 <input id="i1" type="submit" value="提交" >
-                <input id="i2" type="button" value="取消">
+                <a href="/page"><input id="i2" type="button" value="取消"></a>
+
             </div>
         </form>
 
@@ -171,6 +177,25 @@
         $('#a1').click(function () {
             $(this).parent().parent().parent().parent().next().removeClass('hide');
             console.log(2)
+
+        });
+        $('#s1').click(function () {
+           var api_name = $("#form1").children().next().val();
+           var project = $("#form1").children().next().next().next().val();
+           var create_user = $("#form1").children().next().next().next().next().next().val();
+           console.log('api_name;',api_name,'project:',project,'create_user:',create_user);
+           //提交表单
+           $.ajax({
+                url:"",
+                type:"POST",
+                dataType:"json",
+                data:{"operation_name":"select","api_name":api_name,"project":project,"create_user":create_user},
+                success:function () {
+                    alert('123');
+                }
+            })
+
+
 
         });
 
