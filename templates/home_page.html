@@ -35,7 +35,7 @@
         </div>
         <div style="width: 83%;display: block;margin-left: 30px; border-right: 1px solid lightgray;">
             <div style="width: 90%;height: 100px;margin-top: 30px;margin-left: 40px">
-                <form id="form1">
+                <form id="form1" action="/page/main/select/" method="POST">
 
                     <label for="api_name" class="jq_name">接口名称:</label>
                     <input type="text" name="api_name" placeholder="自定义">
@@ -45,13 +45,15 @@
 
                     <label for="create_user" class="jq_name">创建人:</label>
                     <input name="create_user" type="text">
+                    <input type="submit" class="hide" id="submit_hide">
                 </form>
 
             </div>
 
             <div style="width: 90%; display: block">
                 <div style="height: 38px">
-                    <a href="home_page/select"><input id="s1"  type="button" value="查询" class="jq_button"></a>
+{#                    <a href="/page/main/select/"><input id="s1"  type="button" value="查询" class="jq_button"></a>#}
+                    <input id="s1"  type="button" value="查询" class="jq_button">
                     <input id="a1" type="button" value="新增" class="jq_button">
                     <input id="u1" type="button" value="修改" class="jq_button">
                     <input id="d1" type="button" value="删除" class="jq_button">
@@ -92,19 +94,6 @@
 
                 <div style="width: 100%;min-height: 350px;border: 1px solid hotpink ">
                     <table style="height: 38px">
-{#                        <tr>#}
-{#                            <td>{{ data.id }}</td>#}
-{#                            <td>{{ data.project}}</td>#}
-{#                            <td>{{ data.api_name }}</td>#}
-{#                            <td>{{ data.api_url }}</td>#}
-{#                            <td>{{ data.api_data }}</td>#}
-{#                            <td>{{ data.api_header }}</td>#}
-{#                            <td>{{ data.api_method }}</td>#}
-{#                            <td>{{ data.api_response }}</td>#}
-{#                            <td>{{ data.create_time }}</td>#}
-{#                            <td>{{ data.modify_user_code }}</td>#}
-{##}
-{#                        </tr>#}
                         {% for row in data  %}
                             <tr>
                                 <td>{{ row.id }}</td>
@@ -135,7 +124,7 @@
         <div name="add" style="margin: 10px 0px 10px 0px;color: black;background-color: darkgrey;font-size: 20px">
             新增
         </div>
-        <form action="/page/" method="POST">
+        <form action="/page/main/" method="POST">
             <p>
                 <label for="operation_name"></label>
                 <input name="operation_name" type="text" style="display: none" value="add">
@@ -162,7 +151,7 @@
             </p>
             <div style="margin-top: 200px">
                 <input id="i1" type="submit" value="提交" >
-                <a href="/page"><input id="i2" type="button" value="取消"></a>
+                <a href="/page/main/"><input id="i2" type="button" value="取消"></a>
 
             </div>
         </form>
@@ -193,25 +182,28 @@
             console.log(2)
 
         });
-        $('#s1').click(function () {
-           var api_name = $("#form1").children().next().val();
-           var project = $("#form1").children().next().next().next().val();
-           var create_user = $("#form1").children().next().next().next().next().next().val();
-           console.log('api_name;',api_name,'project:',project,'create_user:',create_user);
-           //提交表单
-           $.ajax({
-                url:"select",
-                type:"POST",
-                dataType:"json",
-                data:{"operation_name":"select","api_name":api_name,"project":project,"create_user":create_user},
-                success:function () {
-                    alert('123');
-                }
-            })
-
-
-
-        });
+        {#$('#s1').click(function () {#}
+        {#   var api_name = $("#form1").children().next().val();#}
+        {#   var project = $("#form1").children().next().next().next().val();#}
+        {#   var create_user = $("#form1").children().next().next().next().next().next().val();#}
+           {#console.log('api_name;',api_name,'project:',project,'create_user:',create_user);#}
+        {#   //提交表单#}
+        {#   $.ajax({#}
+        {#        url:"select/",#}
+        {#        type:"get",#}
+        {#        dataType:"json",#}
+        {#        data:{"operation_name":"select","api_name":api_name,"project":project,"create_user":create_user},#}
+        {#        success:function (data) {#}
+        {#            console.log(data)#}
+        {#        }#}
+        {#    })#}
+        {##}
+        {##}
+        {##}
+        {# };#}
+        $("#s1").click(function(){
+            $("#submit_hide").trigger('click');
+          })
 
     </script>
 </body>

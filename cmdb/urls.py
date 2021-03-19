@@ -24,6 +24,7 @@ from cmdb import views
 urlpatterns = [
 
     path('main/', views.page),
-    path('main/home_page/select/', views.select_data),
+    path('main/select/', views.select_data),
+    path('main/select/select/', views.select_data),
 
 ]
