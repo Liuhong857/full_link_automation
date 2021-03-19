@@ -35,7 +35,7 @@
         </div>
         <div style="width: 83%;display: block;margin-left: 30px; border-right: 1px solid lightgray;">
             <div style="width: 90%;height: 100px;margin-top: 30px;margin-left: 40px">
-                <form id="form1" action="/page/" method="post">
+                <form id="form1">
 
                     <label for="api_name" class="jq_name">接口名称:</label>
                     <input type="text" name="api_name" placeholder="自定义">
@@ -51,7 +51,7 @@
 
             <div style="width: 90%; display: block">
                 <div style="height: 38px">
-                    <input id="s1"  type="button" value="查询" class="jq_button">
+                    <a href="home_page/select"><input id="s1"  type="button" value="查询" class="jq_button"></a>
                     <input id="a1" type="button" value="新增" class="jq_button">
                     <input id="u1" type="button" value="修改" class="jq_button">
                     <input id="d1" type="button" value="删除" class="jq_button">
@@ -92,6 +92,19 @@
 
                 <div style="width: 100%;min-height: 350px;border: 1px solid hotpink ">
                     <table style="height: 38px">
+{#                        <tr>#}
+{#                            <td>{{ data.id }}</td>#}
+{#                            <td>{{ data.project}}</td>#}
+{#                            <td>{{ data.api_name }}</td>#}
+{#                            <td>{{ data.api_url }}</td>#}
+{#                            <td>{{ data.api_data }}</td>#}
+{#                            <td>{{ data.api_header }}</td>#}
+{#                            <td>{{ data.api_method }}</td>#}
+{#                            <td>{{ data.api_response }}</td>#}
+{#                            <td>{{ data.create_time }}</td>#}
+{#                            <td>{{ data.modify_user_code }}</td>#}
+{##}
+{#                        </tr>#}
                         {% for row in data  %}
                             <tr>
                                 <td>{{ row.id }}</td>
@@ -106,6 +119,7 @@
                                 <td>{{ row.modify_user_code }}</td>
                             </tr>
                         {% endfor %}
+
                     </table>
 
                 </div>
@@ -186,7 +200,7 @@
            console.log('api_name;',api_name,'project:',project,'create_user:',create_user);
            //提交表单
            $.ajax({
-                url:"",
+                url:"select",
                 type:"POST",
                 dataType:"json",
                 data:{"operation_name":"select","api_name":api_name,"project":project,"create_user":create_user},

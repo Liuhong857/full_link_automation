@@ -1,3 +1,6 @@
+# -*- coding:utf-8 -*-
+# author:liuhong
+
 """full_link_automation URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -15,12 +18,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from cmdb import views
 
 
 urlpatterns = [
-    path('page/', include('cmdb.urls')),
 
+    path('main/', views.page),
+    path('main/home_page/select/', views.select_data),
 
 ]
-
-
