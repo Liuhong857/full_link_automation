@@ -32,3 +32,17 @@ def select_data(api_name=None,project=None,create_user=None):
         data_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]# 列表表达式把数据组装起来
         # print(data_dict)
         return data_dict
+
+def select_detail(id):
+    sql = '''select id,project,api_name,api_url,api_data,api_header,api_method,api_response,CAST(create_time AS CHAR) AS create_time,CAST(modify_time AS CHAR) AS modify_time,modify_user_code from t_api_data where id='%s';'''%(id)
+    cursor.execute(sql)
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    data_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来
+    return data_dict
+
+def update_data(id):
+    sql ='''UPDATE t_api_data SET  api_name='%S' ,  api_url='%S', api_header='%S' , api_method='%S' , project='%S' where id='%S';'''
+    cursor.execute(sql)
+    db.commit()
+    update_data_list = select_detail(id)
+    return update_data_list

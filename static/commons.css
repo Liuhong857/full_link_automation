@@ -43,6 +43,7 @@
 .jq_th{
     width: 10%;
     border: 1px solid gray;
+    margin: 2px;
 }
 .add_css{
     position: fixed;
@@ -54,4 +55,13 @@
     margin-top: -250px;
     background-color: #eeeeee;
     z-index: 10;
+}
+
+.jq_td{
+
+    height: 38px;
+    width: 50px;
+    border: 1px solid gray;
+    margin: 2px;
+
 }

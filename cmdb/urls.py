@@ -26,5 +26,8 @@ urlpatterns = [
     path('main/', views.page),
     path('main/select/', views.select_data),
     path('main/select/select/', views.select_data),
+    # path('main/detail-(?P<nid>\d+)/', views.detail_data),
+    path('main/detail/', views.detail_data),
+    path('main/modify/', views.update_data),
 
 ]

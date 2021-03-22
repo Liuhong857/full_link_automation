@@ -55,37 +55,32 @@
 {#                    <a href="/page/main/select/"><input id="s1"  type="button" value="查询" class="jq_button"></a>#}
                     <input id="s1"  type="button" value="查询" class="jq_button">
                     <input id="a1" type="button" value="新增" class="jq_button">
-                    <input id="u1" type="button" value="修改" class="jq_button">
-                    <input id="d1" type="button" value="删除" class="jq_button">
+{#                    <input id="u1" type="button" value="修改" class="jq_button">#}
+{#                    <input id="d1" type="button" value="删除" class="jq_button">#}
 
                  </div>
                 <div style="width: 100%;height: 38px; display: block">
                     <table style="width: 90%">
                         <thead style="width: 80%">
                             <tr>
-                                <th class="jq_th" >
+                                <th style="border:  1px solid gray;width: 1%">
                                     <input type="checkbox">
                                 </th>
                                 <th class="jq_th">
-                                    <div>序号</div>
-                                </th>
-                                <th class="jq_th" >
                                     <div>项目名称</div>
                                 </th>
                                 <th class="jq_th">
-                                    <div>url</div>
+                                    <div>接口名称</div>
                                 </th>
-                                <th class="jq_th">
-                                    <div>执行结果</div>
-                                </th>
+
                                 <th class="jq_th">
                                     <div>创建时间</div>
                                 </th>
                                 <th class="jq_th">
-                                    <div>修改时间</div>
+                                    <div>修改人</div>
                                 </th>
                                 <th class="jq_th">
-                                    <div>修改人</div>
+                                    <div>操作</div>
                                 </th>
                         </thead>
                     </table>
@@ -93,21 +88,25 @@
                 </div>
 
                 <div style="width: 100%;min-height: 350px;border: 1px solid hotpink ">
-                    <table style="height: 38px">
-                        {% for row in data  %}
-                            <tr>
-                                <td>{{ row.id }}</td>
-                                <td>{{ row.project}}</td>
-                                <td>{{ row.api_name }}</td>
-                                <td>{{ row.api_url }}</td>
-                                <td>{{ row.api_data }}</td>
-                                <td>{{ row.api_header }}</td>
-                                <td>{{ row.api_method }}</td>
-                                <td>{{ row.api_response }}</td>
-                                <td>{{ row.create_time }}</td>
-                                <td>{{ row.modify_user_code }}</td>
-                            </tr>
-                        {% endfor %}
+                    <table style="height: 38px;width: 90%;table-layout: fixed;word-break: break-all;">
+                        <thead style="width: 80%;max-height: 40px;" >
+                            {% for row in data  %}
+                                <tr>
+                                    <td style="width: 14px;border: 1px solid gray"><input type="checkbox"></td>
+                                    <td style="width: 123px;border: 1px solid gray;text-align: center">{{ row.project}}</td>
+                                    <td style="width: 123px;border: 1px solid gray;text-align: center">{{ row.api_name }}</td>
+                                    <td style="width: 123px;border: 1px solid gray;text-align: center">{{ row.create_time }}</td>
+                                    <td style="width: 123px;border: 1px solid gray;text-align: center">{{ row.modify_user_code }}</td>
+                                    <td style="width: 123px;border: 1px solid gray;">
+                                        <a href="/page/main/detail/?nid={{ row.id }}">详情</a>
+                                        <a href="/page/main/modify/?nid={{ row.id }}">修改</a>
+                                        <a href="/page/main/delete/?nid={{ row.id }}">删除</a>
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+                        </thead>
 
                     </table>
 
