@@ -46,7 +46,7 @@
                     <input style="height: 200px;width: 400px;" type="text" value="{{ row.api_response }}">
                 </div>
             </div>
-            <input type="text" style="display: none" value="{{ row.id }}">
+            <input type="text" style="display: none" name="id" value="{{ row.id }}">
 
         {% endfor %}
         <a href="/page/main/select/" style="background: olivedrab;color: black">返回</a>

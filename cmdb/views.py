@@ -36,10 +36,11 @@ def update_data(request):#修改数据
         api_method = request.POST.get('api_method', None)
         api_name = request.POST.get('api_name', None)
         api_data = request.POST.get('api_data', None)
-        print('更改详情信息')
-        print(id,api_url,api_header,api_method,api_name,api_data)
-        # update_success= models.update_data()
-        return render(request, 'modify_page.html')
+        # print('更改详情信息')
+        # print('更改详情信息:',id,api_url,api_header,api_method,api_name,api_data)
+        detail= models.update_data(id,api_url,api_header,api_method,api_name,api_data)
+        print('detail:',detail)
+        return render(request, 'modify_page.html',{'detail':detail})
 def delete_data():#删除数据
     pass
 def select_data(request):#查询数据

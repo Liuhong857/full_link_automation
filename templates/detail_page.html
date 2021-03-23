@@ -39,7 +39,7 @@
         <div style="width: 80%;display:flex;margin-top: 20px;margin-bottom: 20px;">
             <div  style="display:flex;justify-content: center;align-items: center;">
                 <div style="width:100px" >data:</div>
-                <input style="height: 200px;width: 400px;" type="text" value="{{ row.api_data }}">
+                <input id="data1" style="height: 200px;width: 400px;" type="text" value="{{ row.api_data }}">
             </div>
             <div style="display:flex;justify-content: center;align-items: center;margin-left: 20px;">
                 <div style="width:100px">response:</div>
@@ -56,5 +56,12 @@
 
 
     <script src="/static/jquery.js"></script>
+    <script>
+        {#$('#data1').attr("attr",JSON.parse($('#data1').val()));#}
+        {#var v=JSON.stringify($('#data1').val());#}
+        {#$('#data1').val(v);#}
+        {#console.log(v)#}
+
+    </script>
 </body>
 </html>

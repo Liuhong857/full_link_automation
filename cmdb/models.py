@@ -40,8 +40,9 @@ def select_detail(id):
     data_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来
     return data_dict
 
-def update_data(id):
-    sql ='''UPDATE t_api_data SET  api_name='%S' ,  api_url='%S', api_header='%S' , api_method='%S' , project='%S' where id='%S';'''
+def update_data(id,api_url,api_header,api_method,api_name,api_data):
+    sql ='''UPDATE t_api_data SET  api_name='%s' ,  api_url='%s', api_header='%s' , api_method='%s' , api_data='%s' where id='%s';'''%(api_name,api_url,api_header,api_method,api_data,id)
+    print(sql)
     cursor.execute(sql)
     db.commit()
     update_data_list = select_detail(id)
