@@ -9,18 +9,14 @@ from . import models
 def detail_data(request):
 
     nid=request.GET.get('nid')
-    print(nid)
+    # print(nid)
     if request.method=='GET':
         detail =models.select_detail(nid)
-        print('detail:',detail)
+        # print('detail:',detail)
 
         return render(request,'detail_page.html',{'detail':detail})
     elif request.method=='POST':
         pass
-
-def add_data(request):#新增接口数据
-
-    pass
 
 def update_data(request):#修改数据
 
@@ -39,43 +35,36 @@ def update_data(request):#修改数据
         # print('更改详情信息')
         # print('更改详情信息:',id,api_url,api_header,api_method,api_name,api_data)
         detail= models.update_data(id,api_url,api_header,api_method,api_name,api_data)
-        print('detail:',detail)
+        # print('detail:',detail)
         return render(request, 'modify_page.html',{'detail':detail})
-def delete_data():#删除数据
-    pass
-def select_data(request):#查询数据
-    print('1',request.method)
-    print('2',request.path_info)
-    if request.method=='POST':
+def delete_data(request):#删除数据
+    id = request.GET.get('nid',None)
+    print(id)
+    # 调用删除
+    data = models.delete_data(id)
 
+    return redirect('/page/main/select/')
+
+def select_data(request):#查询数据
+
+    if request.method=='POST':
         api_name = request.POST.get('api_name', None)
         project = request.POST.get('project', None)
         create_user = request.POST.get('create_user', None)
-        # api_name = request.GET.get('api_name', None)
-        # project = request.GET.get('project', None)
-        # create_user = request.GET.get('create_user', None)
-
         data = models.select_data(api_name,project,create_user)
         print(api_name,project,create_user)
         print('数据汇总:',data)
 
-
-    # #
-    # data = [{'id': 5, 'project': '1', 'api_name': '1', 'api_url': '1', 'api_data': '1', 'api_header': '1',
-    #          'api_method': '1', 'api_response': None, 'create_time': '2021-03-18 14:33:53',
-    #          'modify_time': '2021-03-18 14:33:53', 'modify_user_code': None}]
         return render(request, 'home_page.html', {'data': data},)
-        # return render(request,'/page/main/select/',{'data': data})
-    # else:
-    #     return render(request, 'home_page.html',)
+    elif  request.method=='GET':
+        api_name = request.GET.get('api_name', None)
+        project = request.GET.get('project', None)
+        create_user = request.GET.get('create_user', None)
+        data = models.select_data(api_name,project,create_user)
+        return render(request, 'home_page.html', {'data': data},)
 
 
-    else:
-        print(1)
-        return render(request, 'home_page.html',)
-
-
-def page(request):
+def page(request):#新增接口数据
     if request.method =='GET':
         return render(request, 'home_page.html')
     elif request.method=='POST':
