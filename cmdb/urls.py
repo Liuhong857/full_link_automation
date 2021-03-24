@@ -30,5 +30,6 @@ urlpatterns = [
     path('main/detail/', views.detail_data),
     path('main/modify/', views.update_data),
     path('main/delete/', views.delete_data),
+    path('main/execute/', views.execute_data),
 
 ]

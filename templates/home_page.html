@@ -7,9 +7,9 @@
 </head>
 <body>
     <div  style="background-color: lightgray;margin: 38px 0px;height: 58px;width: 100%">
-        <h2 style="color: orange;text-align: center;line-height: 58px">
+        <h1 style="color: orange;text-align: center;line-height: 58px">
             橙联自动化平台
-        </h2>
+        </h1>
     </div>
     <div  style="height:800px;width: 100%;display: flex ">
         <div style="height: 400px;width: 15%;border: 1px solid blanchedalmond;display: block" >
@@ -82,6 +82,9 @@
                                 <th class="jq_th">
                                     <div>操作</div>
                                 </th>
+                                <th class="jq_th">
+                                    <div>返回编码</div>
+                                </th>
                         </thead>
                     </table>
 
@@ -101,7 +104,10 @@
                                         <a href="/page/main/detail/?nid={{ row.id }}">详情</a>
                                         <a href="/page/main/modify/?nid={{ row.id }}">修改</a>
                                         <a href="/page/main/delete/?nid={{ row.id }}">删除</a>
+                                        <a href="/page/main/execute/?nid={{ row.id }}">执行</a>
                                     </td>
+                                    <td style="width: 123px;border: 1px solid gray;text-align: center">{{ row.api_code }}</td>
+
 
                                 </tr>
 
@@ -138,19 +144,19 @@
             <p>
                 <label for="url">URL:</label>
                 <input type="text" name="url" placeholder="请输入URL">
-                <label for="data">报文:</label>
-                <input type="text" name="data" placeholder="请输入报文">
+                <label for="method">请求方式:</label>
+                <input type="text" name="method" placeholder="请输入请求方式">
 
             </p>
             <p>
                 <label for="header">请求头:</label>
-                <input type="text" name="header" placeholder="请输入请求头">
-                <label for="method">请求方式:</label>
-                <input type="text" name="method" placeholder="请输入请求头">
+                <input type="text" name="header" style="height: 300px;width: 200px" placeholder="请输入请求头，必须为字典格式">
+                <label for="data">报文:</label>
+                <input type="text" name="data" style="height: 300px;width: 200px" placeholder="请输入报文，必须为字典格式">
             </p>
-            <div style="margin-top: 200px">
+            <div style="margin-bottom: 10px">
                 <input id="i1" type="submit" value="提交" >
-                <a href="/page/main/"><input id="i2" type="button" value="取消"></a>
+                <a href="/page/main/select/"><input id="i2" type="button" value="取消"></a>
 
             </div>
         </form>

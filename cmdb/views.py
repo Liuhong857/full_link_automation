@@ -3,8 +3,10 @@ from django.shortcuts import redirect
 from . import models
 from  django.http import HttpResponse
 
+from .encapsulation_request import *
 # Create your views here.
 from . import models
+import json
 
 def detail_data(request):
 
@@ -34,6 +36,8 @@ def update_data(request):#修改数据
         api_data = request.POST.get('api_data', None)
         # print('更改详情信息')
         # print('更改详情信息:',id,api_url,api_header,api_method,api_name,api_data)
+        # api_header = json.dumps(api_header)
+        # api_data = json.dumps(api_data)
         detail= models.update_data(id,api_url,api_header,api_method,api_name,api_data)
         # print('detail:',detail)
         return render(request, 'modify_page.html',{'detail':detail})
@@ -41,7 +45,7 @@ def delete_data(request):#删除数据
     id = request.GET.get('nid',None)
     print(id)
     # 调用删除
-    data = models.delete_data(id)
+    models.delete_data(id)
 
     return redirect('/page/main/select/')
 
@@ -77,6 +81,10 @@ def page(request):#新增接口数据
             data = request.POST.get('data', None)
             header = request.POST.get('header', None)
             method = request.POST.get('method', None)
+            #转义成json格式
+            # data = json.dumps(data)
+            # header = json.dumps(header)
+
             models.add_data(project,project_name,url,data,header,method)
             return render(request, 'home_page.html')
         elif request.POST.get('operation_name', None) == 'select':
@@ -104,4 +112,22 @@ def page(request):#新增接口数据
     else:
         pass
 
+def execute_data(request):#执行API请求
+    id = request.GET.get('nid',None)
+    # print(id)
+    database_result = models.select_detail(id)
+    # print(type(database_result[0]))
+    api_url = database_result[0]['api_url']
+    api_data = database_result[0]['api_data']
+    api_header = database_result[0]['api_header']
+    api_method = database_result[0]['api_method']
 
+    headers = json.loads(api_header)#该requestsAPI明确规定，headers必须是一个字典：
+
+    result = RunMain(url=api_url,data=api_data,method=api_method,headers=headers)
+    print(result.result,result.code)
+    response = result.result
+    code = result.code
+    # response= json.dumps(response)
+    models.update_api_data(id,response,code)
+    return redirect('/page/main/select/')
