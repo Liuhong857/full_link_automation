@@ -8,7 +8,7 @@ from .encapsulation_request import *
 from . import models
 import json
 
-def detail_data(request):
+def detail_data(request):#查询明细
 
     nid=request.GET.get('nid')
     # print(nid)
@@ -34,10 +34,9 @@ def update_data(request):#修改数据
         api_method = request.POST.get('api_method', None)
         api_name = request.POST.get('api_name', None)
         api_data = request.POST.get('api_data', None)
-        # print('更改详情信息')
-        # print('更改详情信息:',id,api_url,api_header,api_method,api_name,api_data)
-        # api_header = json.dumps(api_header)
-        # api_data = json.dumps(api_data)
+        print('更改详情信息')
+        print('更改详情信息:',api_name)
+
         detail= models.update_data(id,api_url,api_header,api_method,api_name,api_data)
         # print('detail:',detail)
         return render(request, 'modify_page.html',{'detail':detail})
@@ -72,45 +71,25 @@ def page(request):#新增接口数据
     if request.method =='GET':
         return render(request, 'home_page.html')
     elif request.method=='POST':
-        data=''
+        print(request.POST.get('operation_name', None))
 
         if request.POST.get('operation_name', None) == 'add':
-            project = request.POST.get('project', None)
-            project_name = request.POST.get('project_name', None)
-            url = request.POST.get('url', None)
-            data = request.POST.get('data', None)
-            header = request.POST.get('header', None)
-            method = request.POST.get('method', None)
+            project = request.POST.get('project_add', None)
+            project_name = request.POST.get('project_name_add', None)
+            url = request.POST.get('url_add', None)
+            data = request.POST.get('data_add', None)
+            header = request.POST.get('header_add', None)
+            method = request.POST.get('method_add', None)
             #转义成json格式
             # data = json.dumps(data)
             # header = json.dumps(header)
 
             models.add_data(project,project_name,url,data,header,method)
             return render(request, 'home_page.html')
-        elif request.POST.get('operation_name', None) == 'select':
-            # api_name = request.POST.get('api_name', None)
-            # project = request.POST.get('project', None)
-            # create_user = request.POST.get('create_user', None)
-            # data = models.select_data(api_name,project,create_user)
-            # data=data
-            # print(type(data),data)
-            # msg = {'msg': data}
-            # print(msg,type(msg))
-            # print(msg['msg'][0])
-            # data = [{'id': 5, 'project': '1', 'api_name': '1', 'api_url': '1', 'api_data': '1', 'api_header': '1',
-            #             'api_method': '1', 'api_response': None, 'create_time': '2021-03-18 14:33:53',
-            #             'modify_time': '2021-03-18 14:33:53', 'modify_user_code': None}]
-            # return render(request, 'detail_page.html', {'data': data})
-            pass
+
         else:
-            pass
+            return render(request, 'home_page.html')
 
-        # return render(request, 'home_page.html',locals())
-                      # {'data': data})
-
-
-    else:
-        pass
 
 def execute_data(request):#执行API请求
     id = request.GET.get('nid',None)
@@ -121,13 +100,83 @@ def execute_data(request):#执行API请求
     api_data = database_result[0]['api_data']
     api_header = database_result[0]['api_header']
     api_method = database_result[0]['api_method']
-
+    print('api_header',api_header)
     headers = json.loads(api_header)#该requestsAPI明确规定，headers必须是一个字典：
 
     result = RunMain(url=api_url,data=api_data,method=api_method,headers=headers)
     print(result.result,result.code)
     response = result.result
     code = result.code
+    print(code)
     # response= json.dumps(response)
     models.update_api_data(id,response,code)
     return redirect('/page/main/select/')
+
+def Associated_api(request):#API关联关系
+
+    # print(request.method)
+    if request.method=='GET':
+        data = models.select_data()
+        return render(request,'Associated_api1.html',{'data': data},)
+    elif request.method=='POST':
+        print(request.POST.get('name',None))
+        values= request.POST.get('name',None)
+
+        if values=='select':
+            select = models.select_Associated_api()
+            print(select)
+            return  render(request,'Associated_api1.html',{'select': select},)
+        elif values == 'add_data':
+            logic_name = request.POST.get('logic_name',None)
+            logic_project = request.POST.get('logic_project',None)
+            api_name = request.POST.getlist('api_name',None)
+            next_api_name = request.POST.getlist('next_api_name',None)
+            extraction_type1 = request.POST.getlist('extraction_type1',None)
+            order_desc= request.POST.getlist('order_desc',None)
+            extraction_type2= request.POST.getlist('extraction_type2',None)
+            assignment_name1 = request.POST.getlist('assignment_name1',None)
+            assignment_name2 = request.POST.getlist('assignment_name2',None)
+
+            data_dict= models.add_Associated_api(logic_project,logic_name)
+            print(data_dict)
+            Associated_id = data_dict[0]['id']
+            Associated_name = data_dict[0]['Associated_name']
+            # print('api_name:',api_name,'next_api_name',next_api_name,'extraction_type1:',extraction_type1,'order_desc:',order_desc,'extraction_type2:',extraction_type2,'assignment_name1:',assignment_name1,'assignment_name2:',assignment_name2)
+
+            #定义循环次数
+            frequency = int(len(order_desc))
+            for i in  range(frequency):
+
+                print('try  ')
+                if i >0:
+                    print(Associated_id, Associated_name, api_name[i], next_api_name[i], extraction_type1[i],
+                          extraction_type2[i - 1], order_desc[i], assignment_name1[i], assignment_name2[i-1])
+                    models.add_Associated_api_detail(Associated_id=Associated_id,Associated_name=Associated_name,
+                                                     api_name=api_name[i], next_api_name=next_api_name[i],
+                                                     extraction_type1=extraction_type1[i],
+                                                     order_desc=order_desc[i], assignment_name1=assignment_name1[i],
+                                                     assignment_name2=assignment_name2[i-1],extraction_type2=extraction_type2[i - 1]
+                                                     )
+                else:
+                    print(Associated_id, Associated_name, api_name[i], next_api_name[i], extraction_type1[i]
+                          , order_desc[i], assignment_name1[i])
+                    models.add_Associated_api_detail(Associated_id=Associated_id, Associated_name=Associated_name,
+                                                     api_name=api_name[i], next_api_name=next_api_name[i],
+                                                     extraction_type1=extraction_type1[i],
+                                                     order_desc=order_desc[i], assignment_name1=assignment_name1[i])
+
+            return render(request, 'Associated_api1.html')
+
+
+
+
+
+    else:
+        pass
+
+def login(request):
+
+    return render(request,'login.html')
+
+
+

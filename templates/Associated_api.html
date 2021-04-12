@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>first_page</title>
+    <link rel="stylesheet" href="/static/commons.css">
+
+</head>
+<body>
+    <div  style="background-color: lightgray;margin: 38px 0px;height: 58px;width: 100%">
+        <h1 style="color: orange;text-align: center;line-height: 58px">
+            橙联自动化平台
+        </h1>
+    </div>
+    <div  style="height:800px;width: 100%;display: flex ">
+        <div style="height: 400px;width: 15%;border: 1px solid blanchedalmond;display: block" >
+            <div id="firstpaneDiv" class="menu_list">
+                <h3 class="menu_head current">接口数据</h3>
+                <div style="display:block" class="menu_nva">
+                    <a href="/page/main/Associated_api/">关联接口配置</a>
+                    <a href="/page/main/">接口数据维护</a>
+                    <a href="#">日志管理</a>
+                    <a href="#">角色管理</a>
+                    <a href="#">编码管理</a>
+                    <a href="#">操作日志</a>
+                    <a href="#">流程管理</a>
+                </div>
+                <h3 class="menu_head">xxx菜单1</h3>
+                <div style="display:none" class="menu_nva">
+                    <a href="#">用例1xx</a>
+                    <a href="#">用例2xx</a>
+                    <a href="#">用例3xx</a>
+                    <a href="#">用例4xx</a>
+                    <a href="#">用例5xx</a>
+                    <a href="#">用例6xx</a>
+                    <a href="#">用例7xx</a>
+                    <a href="#">用例8xx</a>
+                </div>
+                <h3 class="menu_head">xxx菜单2</h3>
+                <div style="display:none" class="menu_nva">
+                    <a href="#">用例1xx</a>
+                    <a href="#">用例2xx</a>
+                    <a href="#">用例3xx</a>
+                    <a href="#">用例4xx</a>
+                    <a href="#">用例5xx</a>
+                    <a href="#">用例6xx</a>
+                    <a href="#">用例7xx</a>
+                    <a href="#">用例8xx</a>
+                </div>
+                <h3 class="menu_head">xxx菜单3</h3>
+                <div style="display:none" class="menu_nva">
+                    <a href="#">用例1xx</a>
+                    <a href="#">用例2xx</a>
+                    <a href="#">用例3xx</a>
+                    <a href="#">用例4xx</a>
+                    <a href="#">用例5xx</a>
+                    <a href="#">用例6xx</a>
+                    <a href="#">用例7xx</a>
+                    <a href="#">用例8xx</a>
+                </div>
+                <h3 class="menu_head">xxx菜单4</h3>
+                <div style="display:none" class="menu_nva">
+                    <a href="#">用例1xx</a>
+                    <a href="#">用例2xx</a>
+                    <a href="#">用例3xx</a>
+                    <a href="#">用例4xx</a>
+                    <a href="#">用例5xx</a>
+                    <a href="#">用例6xx</a>
+                    <a href="#">用例7xx</a>
+                    <a href="#">用例8xx</a>
+                </div>
+                <h3 class="menu_head">xxx菜单5</h3>
+                <div style="display:none" class="menu_nva">
+                    <a href="#">用例1xx</a>
+                    <a href="#">用例2xx</a>
+                    <a href="#">用例3xx</a>
+                    <a href="#">用例4xx</a>
+                    <a href="#">用例5xx</a>
+                    <a href="#">用例6xx</a>
+                    <a href="#">用例7xx</a>
+                    <a href="#">用例8xx</a>
+
+
+                </div>
+
+            </div>
+        </div>
+        <div style="width: 83%;display: block;margin-left: 30px; border-right: 1px solid lightgray;">
+            <div style="width: 90%;height: 38px;margin-top: 30px;margin-left: 40px">
+                <form id="form1" action="/page/main/select/" method="POST">
+
+                    <label for="Associated_api_name" class="jq_name">关联场景名称:</label>
+                    <input type="text" name="Associated_api_name" placeholder="自定义">
+
+                    <label for="Associated_project" class="jq_name">项目类型:</label>
+                    <input name="Associated_project" type="text">
+
+                    <label for="create_user" class="jq_name">创建人:</label>
+                    <input name="create_user" type="text">
+                    <input type="submit" class="hide" id="submit_hide">
+                </form>
+             </div>
+            <div style="width: 90%; display: block">
+                <div style="height: 38px">
+                    <form method="post" action="/page/main/Associated_api/">
+                        <input id="s1"  type="button" name="select" value="查询" class="jq_button">
+                        <input type="submit" id="t1" style="display: none">
+                        <input type="text" name="name" value="select" style="display: none">
+
+                    </form>
+                    <form method="post" action="/page/main/Associated_api/">
+                        <input id="a1" type="button"  value="新增" class="jq_button">
+                        <input type="submit" id="t2" style="display: none">
+                        <input type="text" name="name" value="add" style="display: none">
+                    </form>
+                </div>
+
+            </div>
+            <div style="border: 1px solid gray;width: 80%;height: 400px;margin-top: 20px;margin: auto">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+                                <div class="associated_select_from">关联场景名称</div>
+                            </th>
+                            <th>
+                                <div class="associated_select_from">项目类型</div>
+                            </th>
+                            <th>
+                                <div class="associated_select_from">执行状态</div>
+                            </th>
+                            <th>
+                                <div class="associated_select_from">创建时间</div>
+                            </th>
+                            <th>
+                                <div class="associated_select_from">操作</div>
+                            </th>
+
+
+                        </tr>
+                    </thead>
+                </table>
+
+            </div>
+
+        </div>
+
+        <div class="add_css hide " style="overflow: auto" >
+            <div name="add" style="margin: 10px 0px 10px 0px;color: black;background-color: darkgrey;font-size: 20px">
+            新增
+            </div>
+            <form method="POST" action="/page/main/Associated_api/">
+                <div style="display: inline">逻辑名称:<input style="margin-left: 17px;width: 190px"  name="logic_name" type="text"></div>
+                <div style="display: inline;margin-left: 35px">项目名称:<input style="margin-left: 17px;width: 190px"  name="logic_project" type="text"></div>
+                <div id="div_add">
+                    <span>
+                        接口名称：
+
+                        <select name="api_name" style="height: 22px;width: 200px">
+                            {% for row in data  %}
+                                <option >
+                                    {{ row.api_name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </span>
+                    <span>下一接口名称：
+                        <select name="next_api_name" style="height: 22px;width: 200px"  >
+                            {% for row in data  %}
+                                <option>
+                                    {{ row.api_name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </span>
+{#                    <div style="display: inline" >提取值1<input name="extraction_type" type="text" style="width: 200px;"></div>#}
+                    <div style="position:relative" >
+                        <span >提取值1:<input value="Null" name="extraction_type1" type="text" style="width: 190px;margin-left: 23px"></span>
+{#                        <span style="margin: 42px" >提取值2:<input name="extraction_type2" type="text" style="width: 190px;margin-left: 16px"></span>#}
+                        <span style="position: absolute;right: 127px" ><input type="button" id="add_button" value="+"></span>
+                    </div>
+
+                    <input type="text" name="order_desc" value="0" style="display: none">
+                </div>
+                <input type="text" name="name" value="add_data" style="display: none">
+                <input id="add_submit" style="position: absolute;right: 0;bottom: 0;display: flex;color: orange;" type="submit" value="提交">
+                <input type="button" style="position: absolute;right: 50px;bottom: 0; display: flex;color: orange;" id="cancle1" value="取消">
+            </form>
+
+
+        </div>
+
+
+
+
+    </div>
+
+
+
+    <script src="/static/jquery.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $("#firstpaneDiv .menu_nva:eq(0)").show();
+            $("#firstpaneDiv h3.menu_head").click(function () {
+                $(this).addClass("current").next("div.menu_nva").slideToggle(200).siblings("div.menu_nva").slideUp("slow");
+                $(this).siblings().removeClass("current");
+            });
+            $("#secondpane .menu_nva:eq(0)").show();
+            $("#secondpane h3.menu_head").mouseover(function () {
+                $(this).addClass("current").next("div.menu_nva").slideDown(400).siblings("div.menu_nva").slideUp("slow");
+                $(this).siblings().removeClass("current");
+            });
+        });
+        $('#a1').click(function () {
+            $('#t2').trigger('click');
+        });
+
+        $('#a1').click(function () {
+            $(this).parent().parent().parent().next().removeClass('hide')
+
+        });
+        $('#s1').click(function () {
+            $('#t1').trigger('click');
+        });
+
+        {#$('#add_button').click(function () {#}
+        {#    var number = 1;#}
+        {#    $('#div_add').append("<div id=\"div_add\">\n" +#}
+        {#        "            <span>\n" +#}
+        {#        "                接口名称：\n" +#}
+        {#        "\n" +#}
+        {#        "                <select>\n" +#}
+        {#        "                    {% for row in data  %}\n"+#}
+        {#            "                        <option>\n"+#}
+        {#            "                            {{ row.api_name }}\n"+#}
+        {#            "                        </option>\n"+#}
+        {#            "                    {% endfor %}\n" +#}
+        {#        "                </select>\n" +#}
+        {#        "            </span>\n" +#}
+        {#        "            <span>下一接口名称：\n" +#}
+        {#        "                <select>\n" +#}
+        {#        "                    {% for row in data  %}\n"+#}
+        {#            "                        <option>\n"+#}
+        {#            "                            {{ row.api_name }}\n"+#}
+        {#            "                        </option>\n"+#}
+        {#            "                    {% endfor %}\n" +#}
+        {#        "                </select>\n" +#}
+        {#        "            </span>\n" +#}
+        {#        "            <span>提取值<input type=\"text\" style=\"width: 100px\"></span>\n" +#}
+        {#        "            <span ><input type=\"button\" id=\"delete_button\" value=\"-\"></span>\n" +#}
+        {#        "        </div>");#}
+        {#     // 为新元素节点添加事件侦听器#}
+        {#      bindListener();#}
+        {##}
+        {#;#}
+        {##}
+        {##}
+        {##}
+        $(function () {
+            var number = 1;
+            $('#add_button').click(function () {
+
+
+
+                $('#div_add').append("<div id=\"div_add\">\n" +
+                    "                <span>\n" +
+                    "                    接口名称：\n" +
+                    "\n" +
+                    "                    <select name=\"api_name\" style=\"height: 22px;width: 200px\">\n" +
+                    "                        {% for row in data  %}\n"+
+                        "                            <option>\n"+
+                        "                                {{ row.api_name }}\n"+
+                        "                            </option>\n"+
+                        "                        {% endfor %}\n" +
+                    "                    </select >\n" +
+                    "                </span>\n" +
+                    "                <span>下一接口名称：\n" +
+                    "                    <select name=\"next_api_name\" style=\"height: 22px;width: 200px\">\n" +
+                    "                        {% for row in data  %}\n"+
+                        "                            <option>\n"+
+                        "                                {{ row.api_name }}\n"+
+                        "                            </option>\n"+
+                        "                        {% endfor %}\n" +
+                    "                    </select>\n" +
+                    "                </span>\n" +
+                    "                <div >\n" +
+                    "                        <span >提取值1:<input value=\"Null\"name=\"extraction_type1\" type=\"text\" style=\"width: 190px;margin-left: 23px\"></span>\n" +
+                    "                        <span style=\"margin: 42px\" >提取值2:<input value=\"Null\" name=\"extraction_type2\" type=\"text\" style=\"width: 190px;margin-left: 16px\"></span>\n" +
+                    "                        <span ><input type=\"button\" id=\"delete_button\" value=\"-\"></span>\n" +
+                    "                </div>"+
+
+                    "                <input type=\"text\" name=\"order_desc\" value="+number+" style=\"display: none\">\n "+
+                    "            </div>");
+
+                 // 为新元素节点添加事件侦听器
+                bindListener();
+                number++;
+            });
+        });
+
+        // 用来绑定事件(使用unbind避免重复绑定)
+        function   bindListener() {
+            $("input[id=delete_button]").unload().click(function () {
+                $(this).parent().parent().parent(). remove();
+
+            })
+
+        };
+        $('#cancle1').click(function () {
+            $(this).parent().parent().addClass('hide')
+        });
+        {#$('#add_submit')#}
+
+
+    </script>
+</body>
+</html>

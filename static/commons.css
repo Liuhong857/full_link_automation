@@ -1,9 +1,7 @@
 .hide{
             display: none;
         }
-.active{
-            background-color: darkkhaki;
-        }
+
 .menu{
             height: 38px;
             background-color: #eeeeee;
@@ -12,19 +10,14 @@
         }
 
 
-.menu .menu-item{
-            float: left;
-            border-right: 1px solid red;
-            padding: 0 5px;
-            cursor: pointer;
-            padding-left: 20px;
 
-        }
+
 .content{
             min-height: 38px;
             border: 1px solid #eeeeee;
             padding-left: 40px;
             float: right;
+            display: flex;
 
         }
 /*.item{*/
@@ -47,9 +40,9 @@
 }
 .add_css{
     position: fixed;
-    top: 40%;
-    left: 50%;
-    width: 600px;
+    top: 50%;
+    left: 40%;
+    width: 800px;
     height: 500px;
     margin-left: -250px;
     margin-top: -250px;
@@ -60,8 +53,61 @@
 .jq_td{
 
     height: 38px;
-    width: 50px;
+    width: 10%;
     border: 1px solid gray;
     margin: 2px;
+    text-align: center;
 
+}
+
+.menu_list {
+            width: 200px;
+            margin: 0;
+        }
+
+.menu_head {
+    height: 47px;
+    line-height: 47px;
+    padding-left: 38px;
+    font-size: 14px;
+    color: #525252;
+    cursor: pointer;
+    border: 1px solid #f1f1f1;
+    position: relative;
+    margin: 0px;
+    font-weight: bold;
+    background: #51a9f18c;
+}
+
+.menu_list .current {
+    background: #51a9f18c;
+}
+
+.menu_nva {
+    line-height: 38px;
+    border-left: 1px solid #51a9f18c;
+    backguound: #fff;
+    border-right: 1px solid #51a9f18c;
+}
+
+.menu_nva a {
+    display: block;
+    height: 38px;
+    line-height: 38px;
+    padding-left: 38px;
+    color: #777777;
+    background: #fff;
+    text-decoration: none;
+    border-bottom: 1px solid #51a9f18c;
+}
+
+.menu_nva a:hover {
+    text-decoration: none;
+}
+
+.associated_select_from{
+    width: 170px;
+    /*display: inline;*/
+    border: 1px solid gray;
+    text-align: center;
 }

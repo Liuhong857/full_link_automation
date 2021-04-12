@@ -17,21 +17,21 @@
         <div style="width: 80%;display:flex;margin-bottom: 20px;">
 
             <div style="display:flex;justify-content: center;align-items: center;">
-                <div style="width:100px">url:            </div>
+                <div style="width:100px;text-align: center">url:</div>
                     <input style="height: 38px;width: 400px;" type="text" value="{{ row.api_url }}">
              </div>
             <div style="display:flex;justify-content: center;align-items: center;margin-left: 20px;">
-                        <div style="width:100px">header:</div>
+                        <div style="width:100px;text-align: center">header:</div>
                         <input style="height: 38px;width:400px ;" type="text" value="{{ row.api_header }}">
             </div>
         </div>
         <div style="width: 80%;display:flex;margin-bottom: 20px;">
             <div  style="display:flex;justify-content: center;align-items: center;">
-                <div style="width:100px">method:</div>
+                <div style="width:100px;text-align: center">method:</div>
                 <input style="height: 38px;width: 400px;" type="text"value="{{ row.api_method }}">
             </div>
             <div  style="display:flex;justify-content: center;align-items: center;margin-left: 20px;">
-                <div style="width:100px">接口名称:</div>
+                <div style="width:100px;text-align: center">接口名称:</div>
                 <input style="height: 38px;width: 400px;" type="text"value="{{ row.api_name }}">
             </div>
 
@@ -39,12 +39,14 @@
 
         <div style="width: 80%;display:flex;margin-top: 20px;margin-bottom: 20px;">
             <div  style="display:flex;justify-content: center;align-items: center;">
-                <div style="width:100px" >data:</div>
-                <input id="data1" style="height: 200px;width: 400px;" type="text" value="{{ row.api_data }}">
+                <div style="width:100px;text-align: center" >data:</div>
+{#                <input id="data1" style="height: 200px;width: 400px;" type="text" value="{{ row.api_data }}">#}
+                <textarea style="height: 200px;width: 400px;">{{ row.api_data }}</textarea>
             </div>
             <div style="display:flex;justify-content: center;align-items: center;margin-left: 20px;">
-                <div style="width:100px">response:</div>
-                <input style="height: 200px;width: 400px;" type="text" value="{{ row.api_response }}">
+                <div style="width:100px;text-align: center">response:</div>
+{#                <input style="height: 200px;width: 400px;" type="text" value="{{ row.api_response }}">#}
+                <textarea style="height: 200px;width: 400px;">{{ row.api_response }}</textarea>
             </div>
         </div>
 
