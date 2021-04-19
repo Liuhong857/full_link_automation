@@ -18,8 +18,8 @@
             <div id="firstpaneDiv" class="menu_list">
                 <h3 class="menu_head current">接口数据</h3>
                 <div style="display:block" class="menu_nva">
-                    <a href="/page/main/Associated_api/">关联接口配置</a>
                     <a href="/page/main/">接口数据维护</a>
+                    <a href="/page/main/Associated_api/">关联接口配置</a>
                     <a href="#">日志管理</a>
                     <a href="#">角色管理</a>
                     <a href="#">编码管理</a>
@@ -116,10 +116,13 @@
                 </div>
 
             </div>
-            <div style="width: 80%;height: 38px;margin-top: 20px;margin: auto">
+            <div style="width: 982px;height: 38px;margin-top: 20px;margin: auto">
                 <table>
                     <thead>
                         <tr>
+                            <th>
+                                <div class="associated_select_from"  style="width: 42px">序号</div>
+                            </th>
                             <th>
                                 <div class="associated_select_from">关联场景名称</div>
                             </th>
@@ -133,7 +136,7 @@
                                 <div class="associated_select_from">创建时间</div>
                             </th>
                             <th>
-                                <div class="associated_select_from">操作</div>
+                                <div class="associated_select_from" style="width: 220px">操作</div>
                             </th>
 
 
@@ -143,7 +146,7 @@
 
             </div>
 
-            <div style="border: 1px solid gray;width: 80%;height:400px;margin-top: 20px;margin: auto">
+            <div style="border: 1px solid gray;width: 982px;height:400px;margin-top: 20px;margin: auto">
                 <table>
                     <thead>
                          {% for row in select  %}
@@ -152,6 +155,9 @@
                                     <td style="display: none">
                                         {{ row.id }}
                                     </td >
+                                    <td style="width: 42px;height: 38px;border: 1px solid gray;text-align: center " >
+                                        {{ forloop.counter }}
+                                    </td>
                                     <td style="width: 170px;height: 38px;border: 1px solid gray;text-align: center " >
                                         {{ row.Associated_name }}
                                     </td>
@@ -164,6 +170,13 @@
                                      <td style="width: 170px;height: 38px;border: 1px solid gray;text-align: center ">
                                         {{ row.create_time }}
                                     </td>
+                                    <td style="width: 220px;height: 38px;border: 1px solid gray;text-align: center ">
+                                        <a style="text-decoration: none;color: orange" href="/page/main/Associated_api/detail/?nid={{ row.id }}">详情</a>
+                                        <a id="delete_data" style="text-decoration: none;color: orange" onclick="delete_data_try({{ row.id }})" >删除                                        </a>
+                                        <a style="text-decoration: none;color: orange" href="/page/main/Associated_api/modify/?nid={{ row.id }}">修改</a>
+                                        <a style="text-decoration: none;color: orange" href="/page/main/Associated_api/execute/?nid={{ row.id }}">执行</a>
+                                        <a style="text-decoration: none;color: orange" href="/page/main/Associated_api/execute_detail/?nid={{ row.id }}">执行记录</a>
+                                    </td>
                             </tr>
                          {% endfor %}
                     </thead>
@@ -172,7 +185,7 @@
 
         </div>
 
-        <div class="add_css hide" style="overflow: auto" >
+        <div class="add_css hide"  style="overflow: auto" >
             <div name="add" style="margin: 10px 0px 10px 0px;color: black;background-color: darkgrey;font-size: 20px">
             新增
             </div>
@@ -305,7 +318,22 @@
         });
         $('#a1').click(function () {
             $('.add_css').removeClass('hide')
-        })
+        });
+
+        function delete_data_try(id) {
+            $.ajax({
+                url:'/page/main/Associated_api/delete/',
+                type:'GET',
+                data:{'nid':id},
+                dataType: 'JSON',
+                success:function (data) {
+
+                    console.log(data);
+                    location.reload()
+                }
+            })
+            
+        }
 
 
     </script>

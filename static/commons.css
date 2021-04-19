@@ -111,3 +111,15 @@
     border: 1px solid gray;
     text-align: center;
 }
+.main_login{
+    color: orange;
+}
+.main_login:hover{
+    color: red;
+}
+.associated_detail{
+    width: 200px;
+    height: 28px;
+    border: 1px solid gray;
+
+}

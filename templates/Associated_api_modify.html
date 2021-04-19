@@ -1,0 +1,116 @@
+
+{% extends 'master.html' %}
+{% block firstbody %}
+
+
+<div style="width: 1100px;height: 500px;margin-left: 50px">
+    <h2>场景修改:</h2>
+    <div style="width: 100%;height: 350px;border: 1px solid slategrey;text-align: center">
+        <div >
+            <div style="display: inline;font-size: 25px">项目名称: <span class="associated_detail" style="color: black;"> {{ detail_data.0.project }}</span></div>
+            <div  style="display: inline;font-size: 25px;margin-left: 100px">关联场景名称: <span class="associated_detail">{{ detail_data.0.Associated_name }}</span></div>
+
+        </div>
+            <table>
+                <thead  style="overflow: auto">
+                    <form id="form1">
+                        {% for row in detail_data %}
+
+                            <tr >
+                                <th style="width: 100%;margin: auto">
+                                    <input type="text" name="order_desc" style="display: none" value="{{ row.order_desc }}">
+                                    <span style="width: 100px">步骤{{ row.order_desc|add:1 }}:</span>
+
+
+                                    <select style="width: 100px;margin-left: 10px" name="api_name">
+                                        {% for option in option_data  %}
+                                            {% if row.api_name == option.api_name  %}
+                                                <option selected="selected">{{ row.api_name }}</option>
+                                                {% else %}
+                                                <option>{{ option.api_name }}</option>
+
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+
+                                    <select style="width: 100px;margin-left:20px " name="next_api_name">
+                                        {% for option in option_data  %}
+                                            {% if row.next_api_name == option.api_name  %}
+                                                <option selected="selected">{{ row.next_api_name }}</option>
+                                                {% else %}
+                                                <option>{{ option.api_name }}</option>
+
+                                            {% endif %}
+                                        {% endfor %}
+
+
+
+                                    </select>
+
+                                    <span style="width: 100px;margin-left:20px">提取式1:</span>
+                                    <input style="width: 100px " type="text" name="extraction_type0"  value="{{ row.extraction_type_0 }}">
+                                    {% if row.extraction_type_1 == 'None'  %}
+                                            <span style="width: 100px;margin-left:20px" >提取式2:</span>
+                                            <input style="width: 100px" type="text" name="extraction_type1" disabled value="{{ row.extraction_type_1 }}" disabled="true">
+                                        {% else %}
+                                            <span style="width: 100px;margin-left:20px" >提取式2:</span>
+                                            <input style="width: 100px" type="text" name="extraction_type1" value="{{ row.extraction_type_1 }}">
+                                    {% endif %}
+
+                                    <span style="width: 100px;margin-left:20px">赋值1:</span>
+                                    <input style="width: 100px " type="text" name="assignment_name0"  value="{{ row.assignment_name0 }}">
+                                    {% if row.assignment_name1 == 'None'  %}
+                                            <span style="width: 100px;margin-left:20px">赋值2:</span>
+                                            <input style="width: 100px" type="text"  name="assignment_name1" disabled="true" value="{{ row.assignment_name1 }}">
+
+                                        {% else %}
+                                            <span style="width: 100px;margin-left:20px">赋值2:</span>
+                                            <input style="width: 100px" type="text"  name="assignment_name1" value="{{ row.assignment_name1 }}">
+
+
+                                    {% endif %}
+
+
+                                    <input name="wid" style="display: none" type="text" value="{{ row.wid }}">
+
+                                </th>
+                            </tr>
+
+                        {% endfor %}
+                    </form>
+                </thead>
+            </table>
+
+
+    </div>
+    <div style="position: relative">
+        <a href="/page/main/Associated_api/" >
+            <input style="position: absolute;right: 50%;color: orange" type="button" value="返回">
+
+        </a>
+        <input id="submit" style="position: absolute;right: 40%;color: orange" type="button" value="提交">
+
+    </div>
+
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+    $('#submit').click(function () {
+        $.ajax({
+            uri:'/page/main/Associated_api/modify/',
+            data:$('#form1').serialize(),
+            type:'POST',
+            dataType: 'JSON',
+            success:function (data) {
+                console.log(data);
+                location.reload()
+
+            }
+
+        })
+    })
+</script>
+
+{% endblock %}

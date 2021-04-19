@@ -7,6 +7,7 @@ from .encapsulation_request import *
 # Create your views here.
 from . import models
 import json
+import time
 
 def detail_data(request):#查询明细
 
@@ -106,6 +107,8 @@ def execute_data(request):#执行API请求
     result = RunMain(url=api_url,data=api_data,method=api_method,headers=headers)
     print(result.result,result.code)
     response = result.result
+    response=response.get('lastmileLabel',None)
+    print('response:',response)
     code = result.code
     print(code)
     # response= json.dumps(response)
@@ -124,7 +127,6 @@ def Associated_api(request):#API关联关系
 
         if values=='select':
             select = models.select_Associated_api()
-            print(select)
             return  render(request,'Associated_api1.html',{'select': select},)
         elif values == 'add_data':
             logic_name = request.POST.get('logic_name',None)
@@ -178,5 +180,72 @@ def login(request):
 
     return render(request,'login.html')
 
+def Associated_api_detail(request):
+    api_associated_id= request.GET.get('nid',None)
+    detail_data=models.Associated_api_detail(api_associated_id)
+    return  render(request,'Associated_api_detail.html',{'detail_data':detail_data})
+
+def Associated_api_modify(request):
+    if request.method =='GET':
+        api_associated_id = request.GET.get('nid', None)
+        detail_data = models.Associated_api_detail(api_associated_id)
+        option_data = models.select_data()
+        return render(request, 'Associated_api_modify.html', {'detail_data': detail_data,'option_data':option_data})
+    elif request.method =='POST':
+        api_name = request.POST.getlist('api_name', None)
+        next_api_name = request.POST.getlist('next_api_name', None)
+        order_desc = request.POST.getlist('order_desc', None)
+        extraction_type1 = request.POST.getlist('extraction_type0', None)
+        extraction_type2 = request.POST.getlist('extraction_type1', None)
+        assignment_name1 = request.POST.getlist('assignment_name0', None)
+        assignment_name2 = request.POST.getlist('assignment_name1', None)
+        id=request.POST.getlist('wid',None)
+        # print('receive_data:',request.POST)
+        # print('api_name:',api_name,'next_api_name',next_api_name,'extraction_type1:',extraction_type1,'order_desc:',order_desc,'extraction_type2:',extraction_type2,'assignment_name1:',assignment_name1,'assignment_name2:',assignment_name2,id)
+        # 定义循环次数
+        frequency = int(len(order_desc))
+        msg={'code':0,'message':"null",'date':time.strftime('%Y-%m-%d %H:%m:%S')}
+        try:
+            for i in range(frequency):
+                if i>0:
+                    print('try')
+                    print(api_name[i], next_api_name[i], order_desc[i], extraction_type1[i], extraction_type2[i-1],
+                          assignment_name1[i], assignment_name2[i-1], id[i])
+                    models.Associated_api_modify(api_name=api_name[i], next_api_name=next_api_name[i],
+                                                 order_desc=order_desc[i]
+                                                 , extraction_type1=extraction_type1[i],
+                                                 extraction_type2=extraction_type2[i - 1],
+                                                 assignment_name1=assignment_name1[i],
+                                                 assignment_name2=assignment_name2[i - 1], id=id[i])
+                else:
+                    print('two')
+                    print(api_name[i], next_api_name[i], order_desc[i], extraction_type1[i],
+                          assignment_name1[i], id[i])
+                    models.Associated_api_modify(api_name=api_name[i], next_api_name=next_api_name[i],
+                                                 order_desc=order_desc[i]
+                                                 , extraction_type1=extraction_type1[i],
+                                                 assignment_name1=assignment_name1[i],
+                                                 id=id[i])
+            msg['message']='success'
+            return HttpResponse(json.dumps(msg))
+        except Exception as e:
+            msg['message']=e
+            return HttpResponse(json.dumps(msg))
 
 
+def Associated_api_delete(request):
+    try:
+        meg = {'code':0,'data':'ok'}
+        id =request.GET.get('nid',None)
+        print('ID:',id)
+        models.Associated_api_delete(id)
+        return HttpResponse(json.dumps(meg) )
+    except Exception as e:
+        meg = {'code': 1, 'data': e}
+        return HttpResponse(json.dumps(meg))
+
+def Associated_api_execute(request):
+    pass
+
+def Associated_api_execute_detail(request):
+    pass
