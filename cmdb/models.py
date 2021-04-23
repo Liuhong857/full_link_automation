@@ -19,7 +19,6 @@ def select_data(api_name=None,project=None,create_user=None):
 
     if api_name=='' and project=='' and create_user=='':
         # print('查询全表')
-
         sql='''select id,project,api_name,api_url,api_data,api_header,api_method,api_response,api_code,CAST(create_time AS CHAR) AS create_time,CAST(modify_time AS CHAR) AS modify_time,modify_user_code from t_api_data ;'''
         # print(sql)
         db.ping(reconnect=True)
@@ -55,14 +54,15 @@ def select_data(api_name=None,project=None,create_user=None):
         return data_dict
 
 def select_detail(id):
+
     sql = '''select id,project,api_name,api_url,api_data,api_header,api_method,api_response,CAST(create_time AS CHAR) AS create_time,CAST(modify_time AS CHAR) AS modify_time,modify_user_code from t_api_data where id='%s';'''%(id)
     # 检查连接是否断开，如果断开就进行重连
     db.ping(reconnect=True)
     cursor.execute(sql)
     desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
     data_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来
-    db.close()
     return data_dict
+
 
 def update_data(id,api_url,api_header,api_method,api_name,api_data):
     sql ='''UPDATE t_api_data SET  api_name='%s' ,  api_url='%s', api_header='%s' , api_method='%s' , api_data='%s' where id='%s';'''%(api_name,api_url,api_header,api_method,api_data,id)
@@ -86,9 +86,13 @@ def delete_data(id):
     db.close()
     return data
 
-def update_api_data(id,response,code):
-    sql='''UPDATE t_api_data SET  api_response="%s",api_code="%s" where id='%s';'''%(response,code,id)
-    print(sql)
+def update_api_data(id,response,code,api_data=None):
+    if api_data==None:
+        sql='''UPDATE t_api_data SET  api_response="%s",api_code="%s" where id='%s';'''%(response,code,id)
+        print(sql)
+    else:
+        sql='''UPDATE t_api_data SET  api_response="%s",api_code="%s",api_data='%s' where id='%s';'''%(response,code,api_data,id)
+        print(sql)
     # 检查连接是否断开，如果断开就进行重连
     db.ping(reconnect=True)
     cursor.execute(sql)
@@ -151,6 +155,7 @@ def add_Associated_api_detail(Associated_id, Associated_name, api_name, next_api
     VALUES
         ('%s','%s','%s','%s','%s','%s','%s','%s','%s',NOW())'''%(Associated_id,Associated_name,api_name,next_api_name,order_desc,extraction_type1,extraction_type2
                                                ,assignment_name1,assignment_name2)
+    print(sql)
     # 检查连接是否断开，如果断开就进行重连
     db.ping(reconnect=True)
     cursor.execute(sql)
@@ -234,3 +239,35 @@ def Associated_api_modify(api_name,next_api_name,order_desc,extraction_type1,ass
     db.commit()
     db.close()
     return id
+
+def Associated_api_ready_0(id):
+
+    sql= '''
+        SELECT
+            Associated_id,
+            api_name,
+            next_api_name,
+            order_desc,
+            extraction_type_0,
+            extraction_type_1,
+            assignment_name0,
+            assignment_name1
+        FROM
+            t_api_associated_detail
+        WHERE
+            Associated_id = '%s';'''%id
+    db.ping(reconnect=True)
+    cursor.execute(sql)
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    data_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来
+    db.close()
+    return data_dict
+
+def Associated_api_execute_select(name):
+    sql ='''select * from t_api_data where  api_name='%s';'''%name
+    db.ping(reconnect=True)
+    cursor.execute(sql)
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    data_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来
+    db.close()
+    return data_dict

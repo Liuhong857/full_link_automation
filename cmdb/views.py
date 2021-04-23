@@ -1,12 +1,16 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from . import models
+from cmdb import models
 from  django.http import HttpResponse
 
 from .encapsulation_request import *
+# from cmdb.encapsulation_request import *
+
 # Create your views here.
 from . import models
 import json
+import jmespath
 import time
 
 def detail_data(request):#查询明细
@@ -95,7 +99,7 @@ def page(request):#新增接口数据
 def execute_data(request):#执行API请求
     id = request.GET.get('nid',None)
     # print(id)
-    database_result = models.select_detail(id)
+    database_result = models.select_detail(id=id)
     # print(type(database_result[0]))
     api_url = database_result[0]['api_url']
     api_data = database_result[0]['api_data']
@@ -105,11 +109,15 @@ def execute_data(request):#执行API请求
     headers = json.loads(api_header)#该requestsAPI明确规定，headers必须是一个字典：
 
     result = RunMain(url=api_url,data=api_data,method=api_method,headers=headers)
-    print(result.result,result.code)
     response = result.result
-    response=response.get('lastmileLabel',None)
-    print('response:',response)
+    print(response)
+
+    if response.get('result',None) != None:
+        if response.get('result',None).get('lastmileLabel',None)!= None:
+            response['result']['lastmileLabel']=''
+
     code = result.code
+    print(response)
     print(code)
     # response= json.dumps(response)
     models.update_api_data(id,response,code)
@@ -149,7 +157,7 @@ def Associated_api(request):#API关联关系
             frequency = int(len(order_desc))
             for i in  range(frequency):
 
-                print('try  ')
+
                 if i >0:
                     print(Associated_id, Associated_name, api_name[i], next_api_name[i], extraction_type1[i],
                           extraction_type2[i - 1], order_desc[i], assignment_name1[i], assignment_name2[i-1])
@@ -160,6 +168,7 @@ def Associated_api(request):#API关联关系
                                                      assignment_name2=assignment_name2[i-1],extraction_type2=extraction_type2[i - 1]
                                                      )
                 else:
+                    print('try ')
                     print(Associated_id, Associated_name, api_name[i], next_api_name[i], extraction_type1[i]
                           , order_desc[i], assignment_name1[i])
                     models.add_Associated_api_detail(Associated_id=Associated_id, Associated_name=Associated_name,
@@ -244,8 +253,252 @@ def Associated_api_delete(request):
         meg = {'code': 1, 'data': e}
         return HttpResponse(json.dumps(meg))
 
+
+def update_dict(k, v, mydict):
+
+
+    if isinstance(mydict, dict):
+        for element_key in mydict.keys():
+            if element_key == k:
+                print('赋值')
+                mydict[element_key] = v
+            elif isinstance(mydict[element_key], dict):
+                for element_key1 in mydict[element_key].keys():
+                    if element_key1 == k:
+                        print('赋值')
+                        mydict[element_key][element_key1] = v
+                    elif isinstance(mydict[element_key][element_key1], dict):
+                        for element_key2 in mydict[element_key][element_key1].keys():
+                            if element_key2 == k:
+                                print('赋值')
+                                mydict[element_key][element_key1][element_key2] = v
+                            elif isinstance(mydict[element_key][element_key1][element_key2], dict):
+                                for element_key3 in mydict[element_key][element_key1][element_key2].keys():
+                                    if element_key3 == k:
+                                        print('赋值')
+                                        mydict[element_key][element_key1][element_key2][element_key3] = v
+                            elif isinstance(mydict[element_key][element_key1][element_key2], list):
+                                pass
+
+                    elif isinstance(mydict[element_key][element_key1], list):
+                        for element_dict_list in mydict[element_key][element_key1]:
+                            if isinstance(element_dict_list, dict):
+                                for element_dict_list_1 in element_dict_list.keys():
+                                    if element_dict_list_1 == k:
+                                        print('dictlist赋值')
+                                        element_dict_list[element_dict_list_1] = v
+                                    elif isinstance(element_dict_list_1, dict):
+                                        pass
+                                    elif isinstance(element_dict_list_1, list):
+                                        for element_dict_list_1_list in element_dict_list_1:
+                                            if isinstance(element_dict_list_1_list, dict):
+                                                for element_dict_list_1_list_dict in element_dict_list_1_list.keys():
+                                                    if element_dict_list_1_list_dict == k:
+                                                        print('dictlist赋值')
+                                                        element_dict_list_1[element_dict_list_1_list][
+                                                            element_dict_list_1_list_dict] = v
+
+
+                            elif isinstance(element_dict_list, list):
+                                for element_dict_list_2 in element_dict_list:
+                                    if isinstance(element_dict_list_2, dict):
+                                        for element_dict_list3 in element_dict_list_2:
+                                            if element_dict_list3 == k:
+                                                print('dictlist赋值')
+                                                element_dict_list_2[element_dict_list3] = v
+
+                                    elif isinstance(element_dict_list_2, list):
+                                        pass
+
+            elif isinstance(element_key, list):
+                for element_dict_list_list in element_key:
+                    if isinstance(element_dict_list_list, dict):
+                        for element_dict_list_list_dict in element_dict_list_list.keys():
+                            if element_dict_list_list_dict == k:
+                                print('赋值')
+                                element_dict_list_list[element_dict_list_list_dict] = v
+                            elif isinstance(element_dict_list_list_dict, dict):
+                                for element_dict_list_list_dict_dict in element_dict_list_list_dict.keys():
+                                    if element_dict_list_list_dict_dict == k:
+                                        element_key[element_dict_list_list][element_dict_list_list_dict] = v
+                                    elif isinstance(element_dict_list_list_dict_dict, dict):
+                                        for element_dict_list_list_dict_dict_dict in element_dict_list_list_dict_dict.keys():
+                                            if element_dict_list_list_dict_dict_dict == k:
+                                                print('赋值')
+                                                element_key[element_dict_list_list][element_dict_list_list_dict][
+                                                    element_dict_list_list_dict_dict_dict] = v
+
+                            elif isinstance(element_dict_list_list_dict, list):
+                                for element_dict_list_list_dict_list in element_dict_list_list_dict:
+                                    if isinstance(element_dict_list_list_dict_list, dict):
+                                        for element_dict_list_list_dict_list_dict in element_dict_list_list_dict_list.keys():
+                                            if element_dict_list_list_dict_list_dict == k:
+                                                print('赋值')
+                                                element_dict_list_list_dict[element_dict_list_list_dict_list][
+                                                    element_dict_list_list_dict_list_dict] = v
+                                            elif isinstance(element_dict_list_list_dict_list_dict, dict):
+                                                for element_dict_list_list_dict_list_dict_dict in element_dict_list_list_dict_list_dict.keys():
+                                                    if element_dict_list_list_dict_list_dict_dict == k:
+                                                        print('赋值')
+                                                        element_dict_list_list_dict[element_dict_list_list_dict_list][
+                                                            element_dict_list_list_dict_list_dict][
+                                                            element_dict_list_list_dict_list_dict] = v
+
+
+
+
+                                            elif isinstance(element_dict_list_list_dict_list_dict, list):
+                                                for element_dict_list_list_dict_list_dict_list in element_dict_list_list_dict_list_dict:
+                                                    if isinstance(element_dict_list_list_dict_list_dict_list, dict):
+                                                        for element_dict_list_list_dict_list_dict_list_dict in element_dict_list_list_dict_list_dict_list.keys():
+                                                            if element_dict_list_list_dict_list_dict_list_dict == k:
+                                                                print('赋值')
+                                                                element_dict_list_list_dict_list_dict[
+                                                                    element_dict_list_list_dict_list_dict_list][
+                                                                    element_dict_list_list_dict_list_dict_list_dict] = v
+
+                                                            elif isinstance(
+                                                                    element_dict_list_list_dict_list_dict_list_dict,
+                                                                    dict):
+                                                                for element_dict_list_list_dict_list_dict_list_dict_dict in element_dict_list_list_dict_list_dict_list_dict.keys():
+                                                                    if element_dict_list_list_dict_list_dict_list_dict_dict == k:
+                                                                        element_dict_list_list_dict_list_dict[
+                                                                            element_dict_list_list_dict_list_dict_list][
+                                                                            element_dict_list_list_dict_list_dict_list_dict][
+                                                                            element_dict_list_list_dict_list_dict_list_dict] = v
+
+
+
+
+    elif isinstance(mydict, list):
+        for element_list in mydict:
+            if isinstance(element_list, dict):
+                for element_list_1 in element_list.keys():
+                    if element_list_1 == k:
+                        print('list赋值')
+                        element_list[element_list_1] = v
+                    elif isinstance(element_list_1, dict):
+                        for element_list_dict in element_list_1.keys():
+                            if element_list_dict == k:
+                                print('list赋值')
+                                element_list[element_list_1][element_list_dict] = v
+                            elif isinstance(element_list[element_list_1][element_list_dict], dict):
+                                for element_list_dict_dict in element_list[element_list_1][element_list_dict].keys():
+                                    if element_list_dict_dict == k:
+                                        print("list赋值")
+                                        element_list[element_list_1][element_list_dict][element_list_dict_dict] = v
+                    elif isinstance(element_list_1, list):
+                        for element_list_list in element_list_1:
+                            if isinstance(element_list_list, dict):
+                                for element_list_list_dict in element_list_list.keys():
+                                    if element_list_list_dict == k:
+                                        print("list赋值")
+                                        element_list_list[element_list_list_dict] = v
+                                    elif isinstance(element_list_list_dict, dict):
+                                        for element_list_list_dict_dict in element_list_list_dict.keys():
+                                            if element_list_list_dict_dict == k:
+                                                element_list_list[element_list_list_dict][
+                                                    element_list_list_dict_dict] = v
+
+
+                            elif isinstance(element_list_list, list):
+                                pass
+
+
+
+
+            elif isinstance(element_list, list):
+                pass
+
+    return mydict
+
+def Associated_execute_data(database_result,api_data=None):#执行API循环请求
+    count =0
+    id = database_result[0]['id']
+    api_url = database_result[0]['api_url']
+    if api_data==None:
+        api_data = database_result[0]['api_data']
+        count+=1
+    api_header = database_result[0]['api_header']
+    api_method = database_result[0]['api_method']
+    headers = json.loads(api_header)#该requestsAPI明确规定，headers必须是一个字典：
+    api_data = str(api_data).replace("'", '"')
+    print('api_url:',api_url,'api_header:',api_header,'api_method:',api_method,'api_data:',api_data)
+
+    result = RunMain(url=api_url,data=api_data,method=api_method,headers=headers)
+    response = result.result
+    #注释掉换单的label数据
+    if response.get('result',None)!=None:
+        if response.get('result', None).get('lastmileLabel', None)!=None:
+            response['result']['lastmileLabel']=''
+    elif response.get('data',None)!=None:
+        if response.get('data',None).get('bagLabelList',None)!=None:
+            response.get('data', None).get('bagLabelList', None)[0]['bagLabel']=''
+
+    code = result.code
+    print(response)
+    print(code)
+    print('api_data:',api_data)
+
+    if count==0:
+        models.update_api_data(id=id,response=response,code=code,api_data=api_data)
+    else:
+        models.update_api_data(id=id,response=response,code=code)
+    return response
 def Associated_api_execute(request):
-    pass
+
+    id=request.GET.get('nid',None)
+    data =models.Associated_api_ready_0(id)
+    #定义循环顺序
+    print(data)
+    sequence = int(len(data))
+
+
+    for i  in range(sequence):
+
+        if i ==0:
+            api_name = data[i]['api_name']
+            first_request=models.Associated_api_execute_select(name=api_name)
+            # print(first_request)
+            #保存第一个请求返回结果
+            first_response=Associated_execute_data(first_request)
+            print(first_response)
+
+            next_api_name = data[i]['next_api_name']
+            next_request = models.Associated_api_execute_select(name=next_api_name)
+            next_api_request =json.loads(next_request[0]['api_data'])
+            extraction_type_0 = data[i]['extraction_type_0']
+            assignment_name0 = data[i]['assignment_name0']
+
+            #请求格式切片赋值
+            extraction_type = extraction_type_0.split('|')
+            print('extraction_type',extraction_type)
+            #赋值格式进行切片
+            assignment_name = assignment_name0.split('|')
+            print('assignment_name',assignment_name)
+            if len(assignment_name)!=0 or len(extraction_type)!=0:
+                for row in range(int(len(extraction_type))):
+                    assignment_value= jmespath.search(extraction_type[row],first_response)
+                    print(assignment_value)
+                    assignment_key = assignment_name[row].split('.')[-1]
+                    next_api_request=update_dict(assignment_key,assignment_value,next_api_request)
+
+            print(next_api_request)
+            # 保存next结果
+            next_response=Associated_execute_data(next_request,next_api_request)
+            print(next_response)
+            return HttpResponse ('OK')
+
+
+        else:
+            api_name = data[i]['api_name']
+            next_api_name = data[i]['next_api_name']
+            extraction_type_0 = data[i]['extraction_type_0']
+            assignment_name0 = data[i]['assignment_name0']
+            extraction_type_1 = data[i]['extraction_type_1']
+            assignment_name1 = data[i]['assignment_name1']
+
+
 
 def Associated_api_execute_detail(request):
     pass
