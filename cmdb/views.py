@@ -633,4 +633,5 @@ def Associated_api_execute_detail(request):
     return render(request,'Associated_api_execute_detail.html',{'data':api_name_data,'next_data':next_api_name_data},)
 
 def execute_detail(request):
+    id = request.GET.get('nid')
     pass
