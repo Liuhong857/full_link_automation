@@ -634,4 +634,5 @@ def Associated_api_execute_detail(request):
 
 def execute_detail(request):
     id = request.GET.get('nid')
+    print(id)
     pass
