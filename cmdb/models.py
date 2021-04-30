@@ -4,7 +4,7 @@ from django.db import models
 import pymysql
 
 
-db = pymysql.connect(host='localhost', user='root', password='123456', port=3306, db='test')
+db = pymysql.connect(host='localhost', user='root', password='123456', port=3306, db='test',charset='utf8')
 cursor = db.cursor()
 
 def add_data(project,api_name,api_url,api_data,api_header,api_method):
@@ -88,14 +88,24 @@ def delete_data(id):
 
 def update_api_data(id,response,code,api_data=None):
     if api_data==None:
-        sql='''UPDATE t_api_data SET  api_response="%s",api_code="%s" where id='%s';'''%(response,code,id)
+        sql='''UPDATE t_api_data SET  api_response='%s',api_code="%s" where id='%s';'''%(response,code,id)
+        sql_one = '''UPDATE t_api_associated SET api_code="%s" where id in(
+            select Associated_id from t_api_associated_detail where next_api_name in(
+            select api_name from t_api_data where id='%s'));'''%(code,id)
         print(sql)
+        print(sql_one)
+
     else:
-        sql='''UPDATE t_api_data SET  api_response="%s",api_code="%s",api_data='%s' where id='%s';'''%(response,code,api_data,id)
+        sql='''UPDATE t_api_data SET  api_response='%s',api_code="%s",api_data='%s' where id='%s';'''%(response,code,api_data,id)
+        sql_one = '''UPDATE t_api_associated SET api_code="%s" where id in(
+            select Associated_id from t_api_associated_detail where next_api_name in(
+            select api_name from t_api_data where id='%s'));'''%(code,id)
         print(sql)
+        print(sql_one)
     # 检查连接是否断开，如果断开就进行重连
     db.ping(reconnect=True)
     cursor.execute(sql)
+    cursor.execute(sql_one)
     db.commit()
     db.close()
     update_execute_data(id)
@@ -270,4 +280,23 @@ def Associated_api_execute_select(name):
     desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
     data_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来
     db.close()
+    return data_dict
+
+def Associated_execute_result_first(id):
+    sql ='''select api_name,api_response from t_api_data where api_name in (
+        select api_name from t_api_associated_detail where Associated_id='%s');'''%id
+    db.ping(reconnect=True)
+    cursor.execute(sql)
+    desc=cursor.description
+    data_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来
+
+    return data_dict
+def Associated_execute_result_next(id):
+    sql ='''select api_name,api_response from t_api_data where api_name in (
+        select next_api_name from t_api_associated_detail where Associated_id='%s');'''%id
+    db.ping(reconnect=True)
+    cursor.execute(sql)
+    desc=cursor.description
+    data_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来
+
     return data_dict

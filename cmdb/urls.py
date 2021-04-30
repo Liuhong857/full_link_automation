@@ -38,5 +38,6 @@ urlpatterns = [
     path('main/Associated_api/delete/', views.Associated_api_delete),
     path('main/Associated_api/execute/', views.Associated_api_execute),
     path('main/Associated_api/execute_detail/', views.Associated_api_execute_detail),
+    path('main/execute/detail', views.execute_detail),
 
 ]

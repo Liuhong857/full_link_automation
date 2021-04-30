@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 from django.shortcuts import render
 from django.shortcuts import redirect
 from . import models
@@ -134,8 +135,9 @@ def Associated_api(request):#API关联关系
         values= request.POST.get('name',None)
 
         if values=='select':
+            data = models.select_data()
             select = models.select_Associated_api()
-            return  render(request,'Associated_api1.html',{'select': select},)
+            return  render(request,'Associated_api1.html',{'select': select,'data': data},)
         elif values == 'add_data':
             logic_name = request.POST.get('logic_name',None)
             logic_project = request.POST.get('logic_project',None)
@@ -255,7 +257,7 @@ def Associated_api_delete(request):
 
 
 def update_dict(k, v, mydict):
-
+    print(type(mydict),mydict)
 
     if isinstance(mydict, dict):
         for element_key in mydict.keys():
@@ -310,8 +312,8 @@ def update_dict(k, v, mydict):
                                     elif isinstance(element_dict_list_2, list):
                                         pass
 
-            elif isinstance(element_key, list):
-                for element_dict_list_list in element_key:
+            elif isinstance(mydict[element_key], list):
+                for element_dict_list_list in mydict[element_key]:
                     if isinstance(element_dict_list_list, dict):
                         for element_dict_list_list_dict in element_dict_list_list.keys():
                             if element_dict_list_list_dict == k:
@@ -422,7 +424,8 @@ def Associated_execute_data(database_result,api_data=None):#执行API循环请�
     api_header = database_result[0]['api_header']
     api_method = database_result[0]['api_method']
     headers = json.loads(api_header)#该requestsAPI明确规定，headers必须是一个字典：
-    api_data = str(api_data).replace("'", '"')
+    print('api_data:',api_data)
+    api_data = str(api_data).replace("'", '"').replace("False","false")
     print('api_url:',api_url,'api_header:',api_header,'api_method:',api_method,'api_data:',api_data)
 
     result = RunMain(url=api_url,data=api_data,method=api_method,headers=headers)
@@ -434,16 +437,21 @@ def Associated_execute_data(database_result,api_data=None):#执行API循环请�
     elif response.get('data',None)!=None:
         if response.get('data',None).get('bagLabelList',None)!=None:
             response.get('data', None).get('bagLabelList', None)[0]['bagLabel']=''
+    if response.get('success',None)!=None:
+        response['success']=''
 
     code = result.code
-    print(response)
+
+    new_response=str(response).replace("'", '"')
+    print(new_response)
     print(code)
     print('api_data:',api_data)
 
     if count==0:
-        models.update_api_data(id=id,response=response,code=code,api_data=api_data)
+        models.update_api_data(id=id,response=new_response,code=code,api_data=api_data)
     else:
-        models.update_api_data(id=id,response=response,code=code)
+        models.update_api_data(id=id,response=new_response,code=code)
+    time.sleep(10)
     return response
 def Associated_api_execute(request):
 
@@ -452,9 +460,10 @@ def Associated_api_execute(request):
     #定义循环顺序
     print(data)
     sequence = int(len(data))
-
+    print(sequence)
 
     for i  in range(sequence):
+        print('i:',i)
 
         if i ==0:
             api_name = data[i]['api_name']
@@ -466,13 +475,28 @@ def Associated_api_execute(request):
 
             next_api_name = data[i]['next_api_name']
             next_request = models.Associated_api_execute_select(name=next_api_name)
-            next_api_request =json.loads(next_request[0]['api_data'])
+            # next_api_request =json.loads(next_request[0]['api_data'])
+            next_api_request =eval(next_request[0]['api_data'])
+
+            print('next_api_request:',type(next_api_request),next_api_request)
+
+
             extraction_type_0 = data[i]['extraction_type_0']
             assignment_name0 = data[i]['assignment_name0']
 
-            #请求格式切片赋值
-            extraction_type = extraction_type_0.split('|')
-            print('extraction_type',extraction_type)
+            if extraction_type_0.count('@')==0:
+
+                #请求格式切片赋值
+                extraction_type = extraction_type_0.split('|')
+                print('extraction_type',extraction_type)
+            else:
+                extraction_type = extraction_type_0.split('@')
+                extraction_type_obtain = extraction_type[0]
+                extraction_type_obtain=models.Associated_api_execute_select(extraction_type_obtain)
+                first_response = extraction_type_obtain[0]['api_response']
+                extraction_type =extraction_type[1].split('|')
+
+
             #赋值格式进行切片
             assignment_name = assignment_name0.split('|')
             print('assignment_name',assignment_name)
@@ -481,24 +505,132 @@ def Associated_api_execute(request):
                     assignment_value= jmespath.search(extraction_type[row],first_response)
                     print(assignment_value)
                     assignment_key = assignment_name[row].split('.')[-1]
-                    next_api_request=update_dict(assignment_key,assignment_value,next_api_request)
+                    updata_next_api_request=update_dict(assignment_key,assignment_value,next_api_request)
 
-            print(next_api_request)
+            print(updata_next_api_request)
             # 保存next结果
-            next_response=Associated_execute_data(next_request,next_api_request)
+            next_response=Associated_execute_data(next_request,updata_next_api_request)
             print(next_response)
-            return HttpResponse ('OK')
 
 
         else:
+            #获取上一个的请求的name
+            previous_name = data[i-1]['next_api_name']
             api_name = data[i]['api_name']
             next_api_name = data[i]['next_api_name']
             extraction_type_0 = data[i]['extraction_type_0']
             assignment_name0 = data[i]['assignment_name0']
             extraction_type_1 = data[i]['extraction_type_1']
             assignment_name1 = data[i]['assignment_name1']
+            #上个请求数据
+            previous_name_response_data = models.Associated_api_execute_select(name=previous_name)
+            #本次请求的数据
+            first_request = models.Associated_api_execute_select(name=api_name)
+            #下一个接口请求的数据
+            next_request = models.Associated_api_execute_select(name=next_api_name)
+
+            if len(extraction_type_0)==0 or len(assignment_name0)==0  :
+                first_response = Associated_execute_data(first_request)
+                if len(extraction_type_1)==0 or len(assignment_name1)==0:
+                    next_response = Associated_execute_data(next_request)
+
+            else:
+                if extraction_type_0.count('@')==0:
+                    extraction_type_0= extraction_type_0.split('|')
+                    for i1 in range(int(len(extraction_type_0))):
+                        try:
+                            data_i1=extraction_type_0[i1]
+                            previous_name_response=eval(previous_name_response_data[0]['api_response'])
+
+                            print('previous_name_response:',previous_name_response,type(previous_name_response))
+                            one_vlues= jmespath.search(data_i1,previous_name_response)
+                            one_key=assignment_name0.split('|')[i1].split('.')[-1]
+                            print('first_request:',first_request[0]['api_data'])
+                            first_request_api_data_change = eval(first_request[0]['api_data'])
+
+                            print('first_request_api_data_change:', first_request_api_data_change,
+                                  type(first_request_api_data_change))
+                        except Exception as e:
+                            print('e:',e)
+
+                        first_request_api_data_update = update_dict(one_key, one_vlues,
+                                                                    first_request_api_data_change)
+                        first_ask_response = Associated_execute_data(first_request, json.dumps(first_request_api_data_update))
+                        print('first_ask_response:', first_ask_response)
+
+                        #第一次请求
+
+
+                        if extraction_type_1.count('@')==0:
+                            extraction_type_1= extraction_type_1.split('|')
+                            for i2 in range(int(len(extraction_type_1))):
+                                try:
+                                    data_i2 = extraction_type_1[i2]
+                                    two_vlues = jmespath.search(data_i1, first_ask_response)
+                                    two_key = assignment_name1.split('|')[i2].split('.')[-1]
+                                    next_request_api_data = eval(next_request[0]['api_data'])
+
+
+                                except Exception as e:
+                                    print(e)
+                                two_request_api_data=update_dict(two_key,two_vlues,next_request_api_data)
+                                two_ask_response = Associated_execute_data(next_request, json.dumps(two_request_api_data))
+                                print('two_ask_response:',two_ask_response)
+                        else:
+                            try:
+                                name_obtain_next = extraction_type_1.split('@')[0]
+                                extraction_type_1=extraction_type_1.split('@')[1].split('|')
+                                print('extraction_type_1:',extraction_type_1)
+                                # 指定获取response
+                                appoint_next_response = models.Associated_api_execute_select(name=name_obtain_next)
+                                appoint_next_response_data = eval(appoint_next_response[0]['api_response'])
+                                print(next_request)
+                                next_request_api_data = eval(next_request[0]['api_data'])
+                                print('four_next_requs_data:',next_request_api_data,type(next_request_api_data))
+
+
+                                for appoint_next_row in range(int(len(extraction_type_1))):
+                                    appoint_next_value = extraction_type_1[appoint_next_row]
+                                    appoint_next_value = jmespath.search(appoint_next_value,appoint_next_response_data)
+                                    four_key = assignment_name1.split('|')[appoint_next_row].split('.')[-1]
+                                    four_request_api_data = update_dict(four_key, appoint_next_value, next_request_api_data)
+                                    four_ask_response = Associated_execute_data(next_request, four_request_api_data)
+                                    print('four_ask_response:', four_ask_response)
+
+
+                            except Exception as e:
+                                print('e:9',e)
+                else:
+                    try:
+                        name_obtain=extraction_type_0.split('@')[0]
+                        extraction_type_0=extraction_type_0.split('@')[1].split('|')
+                        #指定获取response
+                        appoint_response = models.Associated_api_execute_select(name=name_obtain)
+                        appoint_response_data=eval(appoint_response[0]['api_response'])
+                        first_request_api_data = eval(first_request[0]['api_data'])
+
+                        for appoint_row in range(int(len(extraction_type_0))):
+                            appoint_value = extraction_type_0[appoint_row]
+                            appoint_value= jmespath.search(appoint_value,appoint_response_data)
+                            three_key = assignment_name0.split('|')[appoint_row].split('.')[-1]
+                            three_request_api_data = update_dict(three_key, appoint_value, first_request_api_data)
+                            three_ask_response = Associated_execute_data(first_request, json.dumps(three_request_api_data))
+                            print('three_ask_response:', three_ask_response)
+
+                    except Exception as e:
+                        print(e)
+
+    return HttpResponse('ok')
+
 
 
 
 def Associated_api_execute_detail(request):
+    id = request.GET.get('nid')
+    api_name_data =models.Associated_execute_result_first(id)
+    next_api_name_data = models.Associated_execute_result_next(id)
+
+    return render(request,'Associated_api_execute_detail.html',{'data':api_name_data,'next_data':next_api_name_data},)
+
+def execute_detail(request):
     pass

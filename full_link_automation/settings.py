@@ -26,7 +26,7 @@ SECRET_KEY = 'vwkj#_u&6uqe7b3!_+#15(y#fk2epv#quta10c13*4rt4s9orb'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']# '*'表示任意地址
 
 
 

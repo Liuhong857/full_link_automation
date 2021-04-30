@@ -1,0 +1,40 @@
+
+{% extends 'master.html' %}
+{% block firstbody %}
+
+    <div style="height: 600px;width: 100%;">
+        <h2 style="margin-left: 20px">执行结果详情:</h2>
+
+        <div style="height: 500px;width: 100%;margin: 0px 20px 0px 20px;overflow: auto;border: 1px solid gray">
+{#            <div style="height: 50px;width: 100%;line-height: 50px">#}
+{#                <h2>执行结果详情:</h2>#}
+{#            </div>#}
+
+            {% for row in data %}
+                <div style="position: relative">
+                    <div style="display: inline;position: absolute;top: 50px;"> api_name:<input type="text" style="margin-left: 40px" value="{{ row.api_name }}" disabled="disabled"></div>
+
+                     <textarea style="width: 40%;margin-left: 320px;height: 100px;margin-top: 10px">{{ row.api_response}}</textarea>
+                </div>
+            {% endfor %}
+            {% for next in next_data %}
+                <div style="position: relative">
+                    <div style="display: inline;position: absolute;top: 50px"> next_api_name:<input type="text" value="{{ next.api_name }}" disabled="disabled"></div>
+
+                     <textarea style="width: 40%;margin-left: 320px;height: 100px;margin-top: 10px">{{ next.api_response}}</textarea>
+                </div>
+
+            {% endfor %}
+
+        </div>
+        <div style="position: relative">
+
+            <a href="/page/main/Associated_api/">
+                <input id="cancel" style="position: absolute;top: 30px;left: 500px" type="button" value="返回">
+            </a>
+
+        </div>
+    </div>
+
+{% endblock %}
+
