@@ -300,3 +300,11 @@ def Associated_execute_result_next(id):
     data_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来
 
     return data_dict
+
+def api_execute_detail(id):#接口执行明细
+    sql ='''select project,api_name,api_url,api_data,api_header,api_method,api_response,api_code ,CAST(create_time AS CHAR) AS create_time  from t_api_execute_detail where api_id='%s';'''%id
+    db.ping(reconnect=True)
+    cursor.execute(sql)
+    desc=cursor.description
+    data_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来
+    return data_dict

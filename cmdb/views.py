@@ -634,6 +634,7 @@ def Associated_api_execute_detail(request):
 
 def execute_detail(request):
     id = request.GET.get('nid')
-    print('id:',id)
+    executed_detail =models.api_execute_detail(id)
 
-    pass
+    return render(request,'api_data_execute_record.html',{'executed_detail':executed_detail},)
+

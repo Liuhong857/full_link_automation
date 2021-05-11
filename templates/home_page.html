@@ -114,8 +114,8 @@
 
                  </div>
                 <div style="width: 100%;height: 38px; display: block">
-                    <table style="width: 90%">
-                        <thead style="width: 80%">
+                    <table style="width: 100%">
+                        <thead style="width: 100%">
                             <tr>
                                 <th style="border:  1px solid gray;width: 1%">
                                     <input type="checkbox">
@@ -137,7 +137,7 @@
                                 <th class="jq_th">
                                     <div>修改人</div>
                                 </th>
-                                <th class="jq_th" style="width: 11%">
+                                <th class="jq_th" style="width: 20%">
                                     <div>操作</div>
                                 </th>
                         </thead>
@@ -146,8 +146,8 @@
                 </div>
 
                 <div style="width: 100%;min-height: 350px;border: 1px solid gray ">
-                    <table style="height: 38px;width: 90%;table-layout: fixed;word-break: break-all;">
-                        <thead style="width: 80%;max-height: 40px;" >
+                    <table style="height: 38px;width: 100%;table-layout: fixed;word-break: break-all;">
+                        <thead style="width: 100%;max-height: 40px;" >
                             {% for row in data  %}
                                 <tr>
 
@@ -157,12 +157,23 @@
                                     <td class="jq_th" style="width: 9%;text-align: center;">{{ row.api_code }}</td>
                                     <td class="jq_th" style="width: 13% ;text-align: center">{{ row.create_time }}</td>
                                     <td class="jq_th" style="text-align: center">{{ row.modify_user_code }}</td>
-                                    <td class="jq_th" style="text-align: center;width: 11%">
-                                        <a style="text-decoration: none;color: orange" href="/page/main/detail/?nid={{ row.id }}">详情</a>
-                                        <a style="text-decoration: none;color: orange" href="/page/main/modify/?nid={{ row.id }}">修改</a>
-                                        <a style="text-decoration: none;color: orange" href="/page/main/delete/?nid={{ row.id }}">删除</a>
-                                        <a style="text-decoration: none;color: orange" href="/page/main/execute/?nid={{ row.id }}">执行</a>
-                                        <a style="text-decoration: none;color: orange" href="/page/main/execute/detail?nid={{ row.id }}">执行</a>
+                                    <td class="jq_th" style="text-align: center;width: 20%">
+                                        <a style="text-decoration: none;color: orange" href="/page/main/detail/?nid={{ row.id }}">
+                                            <input style="color: orange"type="button" value="详情">
+                                        </a>
+
+                                        <a style="text-decoration: none;color: orange" href="/page/main/modify/?nid={{ row.id }}">
+                                            <input style="color: orange"type="button" value="修改">
+                                        </a>
+                                        <a style="text-decoration: none;color: orange" href="/page/main/delete/?nid={{ row.id }}">
+                                            <input style="color: orange"type="button" value="删除">
+                                        </a>
+                                        <a style="text-decoration: none;color: orange" href="/page/main/execute/?nid={{ row.id }}">
+                                            <input style="color: orange"type="button" value="执行">
+                                        </a>
+                                        <a  href="/page/main/execute/detail?nid={{ row.id }}">
+                                            <input style="color: orange"type="button" value="执行记录">
+                                        </a>
 
                                     </td>
 

@@ -123,3 +123,9 @@
     border: 1px solid gray;
 
 }
+.record_detail{
+    border: 1px solid gray;
+    height: 38px;
+    line-height: 38px;
+
+}
