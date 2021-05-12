@@ -116,12 +116,18 @@ def execute_data(request):#执行API请求
     if response.get('result',None) != None:
         if response.get('result',None).get('lastmileLabel',None)!= None:
             response['result']['lastmileLabel']=''
+    if response.get('hasBusinessException',None)!=None:
+        response['hasBusinessException']= ''
+    if response.get('success', None) != None:
+        response['success']= ''
+
+    new_response=str(response).replace("'", '"')
 
     code = result.code
-    print(response)
+    print(new_response)
     print(code)
     # response= json.dumps(response)
-    models.update_api_data(id,response,code)
+    models.update_api_data(id,new_response,code)
     return redirect('/page/main/select/')
 
 def Associated_api(request):#API关联关系

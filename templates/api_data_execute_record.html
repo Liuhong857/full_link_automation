@@ -2,8 +2,8 @@
 {% extends 'master.html' %}
 {% block firstbody %}
     <div style="width: 83%;display: block;margin-left: 20px; border-right: 1px solid lightgray;">
-        <div style="width: 100%;">
-            <h2 style="font-size: 30px">执行记录:</h2>
+        <div style="width: 100%;margin-bottom: 10px">
+            <div style="font-size: 30px;font-weight: bold">执行记录:</div>
         </div>
 {# {{ executed_detail }}#}
 
@@ -11,35 +11,35 @@
             <table style="width: 100%">
                 <thead style="width: 100%">
                     <tr >
-                        <th class="record_detail" style="margin-left: 10px;width: 3%">
-                            <div>序号</div>
+                        <th class="record_detail" style="width: 70px">
+                            <div style="height: 38px">序号</div>
                         </th>
-                        <th class="record_detail" style="margin-left: 10px;width: 3%">
-                            <div>项目</div>
+                        <th class="record_detail" style="width: 70px">
+                            <div style="height: 38px">项目</div>
                         </th>
-                        <th class="record_detail" style="width: 10%;margin-left: 10px;height: 38px">
-                            <div>接口名称</div>
+                        <th class="record_detail" style="width: 150px;height: 38px">
+                            <div style="height: 38px">接口名称</div>
                         </th >
-                        <th class="record_detail" style="width: 10%;margin-left: 10px;height: 38px">
-                            <div>请求地址</div>
+                        <th class="record_detail" style="width: 150px;height: 38px">
+                            <div style="height: 38px">请求地址</div>
                         </th>
-                        <th class="record_detail" style="width: 10%;margin-left: 10px;height: 38px">
-                            <div>请求报文</div>
+                        <th class="record_detail" style="width: 150px;height: 38px">
+                            <div style="height: 38px">请求报文</div>
                         </th>
-                        <th class="record_detail" style="width: 10%;margin-left: 10px;height: 38px">
-                            <div>请求头</div>
+                        <th class="record_detail" style="width: 150px;height: 38px">
+                            <div style="height: 38px">请求头</div>
                         </th>
-                        <th class="record_detail" style="width: 10%;margin-left: 10px;height: 38px">
-                            <div>请求方式</div>
+                        <th class="record_detail" style="width: 150px;height: 38px">
+                            <div style="height: 38px">请求方式</div>
                         </th>
-                        <th class="record_detail" style="width: 10%;margin-left: 10px;height: 38px">
-                            <div>返回报文</div>
+                        <th class="record_detail" style="width: 150px;height: 38px">
+                            <div style="height: 38px">返回报文</div>
                         </th>
-                        <th class="record_detail" style="width: 10%;margin-left: 10px;height: 38px">
-                            <div>状态码</div>
+                        <th class="record_detail" style="width: 100px;height: 38px">
+                            <div style="height: 38px">状态码</div>
                         </th>
-                        <th class="record_detail" style="width: 10%;margin-left: 10px;height: 38px">
-                            <div>请求时间</div>
+                        <th class="record_detail" style="width: 220px;margin-left: 10px;height: 38px">
+                            <div style="height: 38px">请求时间</div>
                         </th>
                     </tr>
 
@@ -48,39 +48,40 @@
             </table>
 
         </div>
-        <div  style="width: 100%;min-height: 350px;border: 1px solid gray;margin-top: 20px ;overflow-x:auto;">
+        <div  style="width: 100%;min-height: 350px;border: 1px solid gray;margin-top: 20px ;max-height:480px;overflow: auto">
             <table style="height: 38px;width: 100%;table-layout: fixed;word-break: break-all;">
-                <tbody style="width: 100%;max-height: 40px;" >
+                <tbody style="width: 100%;" >
+
                     {% for row in executed_detail %}
                         <tr style="text-align: center;border: 1px solid green;width: 100% ;display: block;">
-                            <td class="record_detail" style="width: 35px;">
+                            <td class="record_detail" style="width: 70px;">
                                 <div>{{ forloop.counter }}</div>
                             </td>
-                            <td class="record_detail" style="width: 35px;">
-                                <div style="height: 38px;overflow: hidden;text-overflow: ellipsis">{{ row.project }}</div>
+                            <td class="record_detail" style="width: 70px;">
+                                <div style="height: 38px;overflow: hidden;text-overflow: ellipsis" onclick="detail('{{ row.project }}')">{{ row.project }}</div>
                             </td>
                             <td class="record_detail" style=";width: 150px;height: 38px">
-                                <div style="height: 38px;overflow: hidden;text-overflow: ellipsis">{{ row.api_name }}</div>
+                                <div style="height: 38px;overflow: hidden;text-overflow: ellipsis" onclick="detail('{{ row.api_name}}')">{{ row.api_name }}</div>
                             </td>
                             <td class="record_detail" style="width: 150px;height: 38px">
-                                <div style="height: 38px;overflow: hidden;text-overflow: ellipsis">{{ row.api_url }}</div>
+                                <div style="height: 38px;overflow: hidden;text-overflow: ellipsis" onclick="detail('{{ row.api_url}}')">{{ row.api_url }}</div>
                             </td>
                             <td class="record_detail" style="width: 150px;height: 38px">
-                                <div style="height: 38px;overflow: hidden;text-overflow: ellipsis">{{ row.api_data }}</div>
+                                <div onclick="detail(JSON.stringify({{ row.api_data}}))" style="height: 38px;overflow: hidden;text-overflow: ellipsis" >{{ row.api_data }}</div>
                             </td>
                             <td class="record_detail" style="width: 150px;height: 38px">
-                                <div style="height: 38px;overflow: hidden;text-overflow: ellipsis">{{ row.api_header }}</div>
+                                <div style="height: 38px;overflow: hidden;text-overflow: ellipsis" onclick="detail('{{ row.api_header}}')">{{ row.api_header }}</div>
                             </td>
                             <td class="record_detail" style="width: 150px;height: 38px">
-                                <div style="height: 38px;overflow: hidden;text-overflow: ellipsis">{{ row.api_method }}</div>
+                                <div style="height: 38px;overflow: hidden;text-overflow: ellipsis" onclick="detail('{{ row.api_method}}')">{{ row.api_method }}</div>
                             </td>
                             <td class="record_detail" style="width: 150px;height: 38px">
-                                <div style="height: 38px;overflow: hidden;text-overflow: ellipsis">{{ row.api_response }}</div>
+                                <div onclick="detail('{{ row.api_response}}')" style="height: 38px;overflow: hidden;text-overflow: ellipsis" >{{ row.api_response }}</div>
                             </td>
-                            <td class="record_detail" style="width: 150px;height: 38px">
-                                <div style="height: 38px;overflow: hidden;text-overflow: ellipsis">{{ row.api_code }}</div>
+                            <td class="record_detail" style="width: 100px;height: 38px">
+                                <div style="height: 38px;overflow: hidden;text-overflow: ellipsis" onclick="detail('{{ row.api_code}}')">{{ row.api_code }}</div>
                             </td>
-                            <td class="record_detail" style="width: 150px;height: 38px">
+                            <td class="record_detail" style="width: 220px;height: 38px">
                                 <div style="height: 38px">{{ row.create_time }}</div>
                             </td>
                         </tr>
@@ -95,7 +96,35 @@
 
 
 
+        <div class="add_css hide" >
+            <div style="margin: 10px 0px 10px 0px;color: orange;background-color: white;font-size: 20px;display: inline-block">
+                明细
+            </div>
+            <div style="align-content: center">
+                <textarea style="width: 80%;height: 400px" type="text" id="data_detail" value=""> </textarea>
+            </div>
+            <div>
+                <input style="color: orange" type="button" value="关闭" id="off">
+            </div>
 
+        </div>
     </div>
+{% endblock %}
+
+{% block js  %}
+    <script>
+        function detail(data) {
+            $('.add_css').removeClass('hide');
+            console.log(data,'1111111111');
+            $('#data_detail').val(data);
+
+
+        };
+        $('#off').click(function () {
+            $('.add_css').addClass('hide')
+        })
+
+
+    </script>
 {% endblock %}
 
