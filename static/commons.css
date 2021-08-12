@@ -129,3 +129,7 @@
     line-height: 38px;
 
 }
+.backgroud_image{
+    background: url(/static/images/photograph.jpg) no-repeat center center fixed;
+    background-size:cover ;
+}
