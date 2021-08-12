@@ -87,6 +87,10 @@
 
             </div>
         </div>
+
+{% extends 'master.html' %}
+{% block firstbody %}
+
         <div style="width: 83%;display: block;margin-left: 30px; border-right: 1px solid lightgray;">
             <div style="width: 90%;height: 38px;margin-top: 30px;margin-left: 40px">
                 <form id="form1" action="/page/main/select/" method="POST">
@@ -237,7 +241,7 @@
     </div>
 
 
-
+{% endblock %}
     <script src="/static/jquery.js"></script>
     <script>
 

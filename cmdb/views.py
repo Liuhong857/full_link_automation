@@ -143,6 +143,7 @@ def Associated_api(request):#API关联关系
         if values=='select':
             data = models.select_data()
             select = models.select_Associated_api()
+            print('开始调试...')
             return  render(request,'Associated_api1.html',{'select': select,'data': data},)
         elif values == 'add_data':
             logic_name = request.POST.get('logic_name',None)
