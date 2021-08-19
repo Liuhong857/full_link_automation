@@ -1,92 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>first_page</title>
-    <link rel="stylesheet" href="/static/commons.css">
 
-</head>
-<body>
-    <div  style="background-color: lightgray;margin: 38px 0px;height: 58px;width: 100%">
-        <h1 style="color: orange;text-align: center;line-height: 58px">
-            <a style="text-decoration: none;color: orange;" href="/page/login/">橙联自动化平台</a>
+{% extends 'master.html' %}
+{% block firstbody %}
 
-        </h1>
-    </div>
-    <div  style="height:800px;width: 100%;display: flex ">
-        <div style="height: 400px;width: 15%;border: 1px solid blanchedalmond;display: block" >
-            <div id="firstpaneDiv" class="menu_list">
-                <h3 class="menu_head current">接口数据</h3>
-                <div style="display:block" class="menu_nva">
-                    <a href="/page/main/">接口数据维护</a>
-                    <a href="/page/main/Associated_api/">关联接口配置</a>
-                    <a href="#">日志管理</a>
-                    <a href="#">角色管理</a>
-                    <a href="#">编码管理</a>
-                    <a href="#">操作日志</a>
-                    <a href="#">流程管理</a>
-                </div>
-                <h3 class="menu_head">xxx菜单1</h3>
-                <div style="display:none" class="menu_nva">
-                    <a href="#">用例1xx</a>
-                    <a href="#">用例2xx</a>
-                    <a href="#">用例3xx</a>
-                    <a href="#">用例4xx</a>
-                    <a href="#">用例5xx</a>
-                    <a href="#">用例6xx</a>
-                    <a href="#">用例7xx</a>
-                    <a href="#">用例8xx</a>
-                </div>
-                <h3 class="menu_head">xxx菜单2</h3>
-                <div style="display:none" class="menu_nva">
-                    <a href="#">用例1xx</a>
-                    <a href="#">用例2xx</a>
-                    <a href="#">用例3xx</a>
-                    <a href="#">用例4xx</a>
-                    <a href="#">用例5xx</a>
-                    <a href="#">用例6xx</a>
-                    <a href="#">用例7xx</a>
-                    <a href="#">用例8xx</a>
-                </div>
-                <h3 class="menu_head">xxx菜单3</h3>
-                <div style="display:none" class="menu_nva">
-                    <a href="#">用例1xx</a>
-                    <a href="#">用例2xx</a>
-                    <a href="#">用例3xx</a>
-                    <a href="#">用例4xx</a>
-                    <a href="#">用例5xx</a>
-                    <a href="#">用例6xx</a>
-                    <a href="#">用例7xx</a>
-                    <a href="#">用例8xx</a>
-                </div>
-                <h3 class="menu_head">xxx菜单4</h3>
-                <div style="display:none" class="menu_nva">
-                    <a href="#">用例1xx</a>
-                    <a href="#">用例2xx</a>
-                    <a href="#">用例3xx</a>
-                    <a href="#">用例4xx</a>
-                    <a href="#">用例5xx</a>
-                    <a href="#">用例6xx</a>
-                    <a href="#">用例7xx</a>
-                    <a href="#">用例8xx</a>
-                </div>
-                <h3 class="menu_head">xxx菜单5</h3>
-                <div style="display:none" class="menu_nva">
-                    <a href="#">用例1xx</a>
-                    <a href="#">用例2xx</a>
-                    <a href="#">用例3xx</a>
-                    <a href="#">用例4xx</a>
-                    <a href="#">用例5xx</a>
-                    <a href="#">用例6xx</a>
-                    <a href="#">用例7xx</a>
-                    <a href="#">用例8xx</a>
-
-
-                </div>
-
-            </div>
-        </div>
         <div style="width: 83%;display: block;margin-left: 30px; border-right: 1px solid lightgray;">
             <div style="width: 90%;height: 38px;margin-top: 30px;margin-left: 40px">
                 <form id="form1" action="/page/main/select/" method="POST">
@@ -353,3 +268,5 @@
     </script>
 </body>
 </html>
+
+{% endblock %}
