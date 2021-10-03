@@ -64,6 +64,13 @@ def select_data(request):#查询数据
         print(api_name,project,create_user)
         print('数据汇总:',data)
 
+        page_count = 10
+
+
+
+        print('count_number',type(len(data)),len(data))
+
+
         return render(request, 'home_page.html', {'data': data},)
     elif  request.method=='GET':
         api_name = request.GET.get('api_name', None)

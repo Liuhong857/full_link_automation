@@ -3,8 +3,8 @@
 {% extends 'master.html' %}
 
 {% block firstbody %}
-        <div style="width: 83%;display: block;margin-left: 30px; border-right: 1px solid lightgray;">
-            <div style="width: 90%;height: 38px;margin-top: 30px;margin-left: 40px">
+    <div style="width: 83%;display: block;margin-left: 30px; border-right: 1px solid lightgray;">
+            <div style="width: 90%;height: 38px;margin-top: 30px;text-align: center">
                 <form id="form1" action="/page/main/select/" method="POST">
 
                     <label for="api_name" class="jq_name">接口名称:</label>
@@ -22,7 +22,6 @@
 
             <div style="width: 90%; display: block">
                 <div style="height: 38px">
-{#                    <a href="/page/main/select/"><input id="s1"  type="button" value="查询" class="jq_button"></a>#}
                     <input id="s1"  type="button" value="查询" class="jq_button">
                     <input id="a1" type="button" value="新增" class="jq_button">
 {#                    <input id="u1" type="button" value="修改" class="jq_button">#}
@@ -104,12 +103,22 @@
 
                 </div>
 
+                <div>
+                    <select id="ps" onchange="changePageSize(this)">
+                        <option value="10">10</option>
+                        <option value="30">30</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+
+
+
+
             </div>
 
         </div>
 
-
-    </div>
 
     <div class="add_css hide" id="add_hide">
         <div name="add" style="margin: 10px 0px 10px 0px;color: black;background-color: darkgrey;font-size: 20px">
@@ -199,29 +208,11 @@
 
         });
         $('#a1').click(function () {
-            $(this).parent().parent().parent().parent().next().removeClass('hide');
+            $(this).parent().parent().parent().next().removeClass('hide');
             console.log(2)
 
         });
-        {#$('#s1').click(function () {#}
-        {#   var api_name = $("#form1").children().next().val();#}
-        {#   var project = $("#form1").children().next().next().next().val();#}
-        {#   var create_user = $("#form1").children().next().next().next().next().next().val();#}
-           {#console.log('api_name;',api_name,'project:',project,'create_user:',create_user);#}
-        {#   //提交表单#}
-        {#   $.ajax({#}
-        {#        url:"select/",#}
-        {#        type:"get",#}
-        {#        dataType:"json",#}
-        {#        data:{"operation_name":"select","api_name":api_name,"project":project,"create_user":create_user},#}
-        {#        success:function (data) {#}
-        {#            console.log(data)#}
-        {#        }#}
-        {#    })#}
-        {##}
-        {##}
-        {##}
-        {# };#}
+
         $("#s1").click(function(){
             $("#submit_hide").trigger('click');
           });
