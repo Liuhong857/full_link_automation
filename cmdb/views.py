@@ -52,7 +52,7 @@ def delete_data(request):#删除数据
     # 调用删除
     models.delete_data(id)
 
-    return redirect('/page/main/select/')
+    return redirect('/page/main/select/?p=1')
 
 def select_data(request):#查询数据
 
@@ -62,22 +62,53 @@ def select_data(request):#查询数据
         create_user = request.POST.get('create_user', None)
         data = models.select_data(api_name,project,create_user)
         print(api_name,project,create_user)
-        print('数据汇总:',data)
-
-        page_count = 10
+        # print('数据汇总:',data)
 
 
+        count_data,y=divmod(len(data),10)
+        if y:
+            count_data +=1
+        page_list= []
+        for i in range(1,count_data+1):
+            if i==1:
+                temp = '<a style" style="text-decoration: none;color: orange;display: inline-block;padding: 5px;background-color: #777777;margin: 5px;background-color: brown;color: white;" href="/page/main/select/?p=%s">%s</a>'%(i,i)
+                page_list.append(temp)
+            else:
+                temp = '<a style" style="text-decoration: none;color: orange;display: inline-block;padding: 5px;background-color: #777777;margin: 5px" href="/page/main/select/?p=%s">%s</a>'%(i,i)
+                page_list.append(temp)
 
-        print('count_number',type(len(data)),len(data))
+        page_list="".join(page_list)
+        if len(data)>10:
+            data=data[0:10]
 
 
-        return render(request, 'home_page.html', {'data': data},)
+        return render(request, 'home_page.html', {'data': data,'page_list':page_list},)
     elif  request.method=='GET':
         api_name = request.GET.get('api_name', None)
         project = request.GET.get('project', None)
         create_user = request.GET.get('create_user', None)
+        p = request.GET.get('p', None)
         data = models.select_data(api_name,project,create_user)
-        return render(request, 'home_page.html', {'data': data},)
+        count_data, y = divmod(len(data), 10)
+        if y:
+            count_data += 1
+        page_list = []
+        for i in range(1, count_data + 1):
+            if i== int(p):
+                temp = '<a style" style="text-decoration: none;color: orange;display: inline-block;padding: 5px;background-color: #777777;margin: 5px;background-color: brown;color: white;" href="/page/main/select/?p=%s">%s</a>'%(i,i)
+                page_list.append(temp)
+            else:
+                temp = '<a style="text-decoration: none;color: orange;display: inline-block;padding: 5px;background-color: #777777;margin: 5px" href="/page/main/select/?p=%s">%s</a>' % (
+                i, i)
+                page_list.append(temp)
+
+        page_list = "".join(page_list)
+        print('page_list',page_list)
+        if p!=None:
+            p = int(p)
+            data = data[(p-1)*10:p*10]
+
+        return render(request, 'home_page.html', {'data': data,'page_list':page_list},)
 
 
 def page(request):#新增接口数据
@@ -135,7 +166,7 @@ def execute_data(request):#执行API请求
     print(code)
     # response= json.dumps(response)
     models.update_api_data(id,new_response,code)
-    return redirect('/page/main/select/')
+    return redirect('/page/main/select/?p=1')
 
 def Associated_api(request):#API关联关系
 

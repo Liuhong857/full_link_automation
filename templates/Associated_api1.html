@@ -90,11 +90,20 @@
                                     </td>
                                     <td style="width: 23%;height: 38px;border: 1px solid gray;text-align: center ">
                                         <div>
-                                            <a style="text-decoration: none;color: orange" href="/page/main/Associated_api/detail/?nid={{ row.id }}">详情</a>
-                                            <a id="delete_data" style="text-decoration: none;color: orange" onclick="delete_data_try({{ row.id }})" >删除                                        </a>
-                                            <a style="text-decoration: none;color: orange" href="/page/main/Associated_api/modify/?nid={{ row.id }}">修改</a>
-                                            <a style="text-decoration: none;color: orange" onclick="execute_data({{ row.id }})">执行</a>
-                                            <a style="text-decoration: none;color: orange" href="/page/main/Associated_api/execute_detail/?nid={{ row.id }}">执行记录</a>
+                                            <a style="text-decoration: none;color: orange" href="/page/main/Associated_api/detail/?nid={{ row.id }}">
+                                                <input style="color: orange"type="button" value="详情">
+                                            </a>
+                                            <a id="delete_data" style="text-decoration: none;color: orange" onclick="delete_data_try({{ row.id }})" >
+                                                <input style="color: orange"type="button" value="删除">
+                                            </a>
+                                            <a style="text-decoration: none;color: orange" href="/page/main/Associated_api/modify/?nid={{ row.id }}">
+                                                <input style="color: orange"type="button" value="修改"></a>
+                                            <a style="text-decoration: none;color: orange" onclick="execute_data({{ row.id }})">
+                                               <input style="color: orange"type="button" value="执行">
+                                            </a>
+                                            <a style="text-decoration: none;color: orange" href="/page/main/Associated_api/execute_detail/?nid={{ row.id }}">
+                                                <input style="color: orange"type="button" value="执行记录">
+                                            </a>
                                         </div>
                                     </td>
                             </tr>

@@ -15,6 +15,9 @@
 
                     <label for="create_user" class="jq_name">创建人:</label>
                     <input name="create_user" type="text">
+                    <div style="margin-top: 32%;text-align: right">
+                        {{ page_list|safe }}
+                    </div>
                     <input type="submit" class="hide" id="submit_hide">
                 </form>
 
@@ -33,7 +36,7 @@
                         <thead style="width: 100%">
                             <tr>
                                 <th style="border:  1px solid gray;width: 1%">
-                                    <input type="checkbox">
+                                   /
                                 </th>
                                 <th class="jq_th">
                                     <div>项目名称</div>
@@ -66,7 +69,7 @@
                             {% for row in data  %}
                                 <tr>
 
-                                    <td style="width: 2%;border: 1px solid gray"><input type="checkbox"></td>
+                                    <td style="width: 1%;border: 1px solid gray;text-align: center">{{ forloop.counter }}</td>
                                     <td class="jq_th" style="text-align: center">{{ row.project}}</td>
                                     <td class="jq_th" style="text-align: center">{{ row.api_name }}</td>
                                     <td class="jq_th" style="width: 9%;text-align: center;">{{ row.api_code }}</td>
@@ -103,14 +106,7 @@
 
                 </div>
 
-                <div>
-                    <select id="ps" onchange="changePageSize(this)">
-                        <option value="10">10</option>
-                        <option value="30">30</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    </select>
-                </div>
+
 
 
 

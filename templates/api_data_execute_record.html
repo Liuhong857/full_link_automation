@@ -5,40 +5,40 @@
         <div style="width: 100%;margin-bottom: 10px">
             <div style="font-size: 30px;font-weight: bold">执行记录:</div>
         </div>
-{# {{ executed_detail }}#}
+
 
         <div style="width: 100%;height: 38px; display: block">
             <table style="width: 100%">
                 <thead style="width: 100%">
                     <tr >
-                        <th class="record_detail" style="width: 70px">
+                        <th class="record_detail" style="width: 5%">
                             <div style="height: 38px">序号</div>
                         </th>
-                        <th class="record_detail" style="width: 70px">
+                        <th class="record_detail" style="width: 5%">
                             <div style="height: 38px">项目</div>
                         </th>
-                        <th class="record_detail" style="width: 150px;height: 38px">
+                        <th class="record_detail" style="width: 10%;height: 38px">
                             <div style="height: 38px">接口名称</div>
                         </th >
-                        <th class="record_detail" style="width: 150px;height: 38px">
+                        <th class="record_detail" style="width: 10%;height: 38px">
                             <div style="height: 38px">请求地址</div>
                         </th>
-                        <th class="record_detail" style="width: 150px;height: 38px">
+                        <th class="record_detail" style="width: 10%;height: 38px">
                             <div style="height: 38px">请求报文</div>
                         </th>
-                        <th class="record_detail" style="width: 150px;height: 38px">
+                        <th class="record_detail" style="width: 10%;height: 38px">
                             <div style="height: 38px">请求头</div>
                         </th>
-                        <th class="record_detail" style="width: 150px;height: 38px">
+                        <th class="record_detail" style="width: 10%;height: 38px">
                             <div style="height: 38px">请求方式</div>
                         </th>
-                        <th class="record_detail" style="width: 150px;height: 38px">
+                        <th class="record_detail" style="width: 10%;height: 38px">
                             <div style="height: 38px">返回报文</div>
                         </th>
-                        <th class="record_detail" style="width: 100px;height: 38px">
+                        <th class="record_detail" style="width: 10%;height: 38px">
                             <div style="height: 38px">状态码</div>
                         </th>
-                        <th class="record_detail" style="width: 220px;margin-left: 10px;height: 38px">
+                        <th class="record_detail" style="width: 20%;margin-left: 10px;height: 38px">
                             <div style="height: 38px">请求时间</div>
                         </th>
                     </tr>
@@ -54,34 +54,34 @@
 
                     {% for row in executed_detail %}
                         <tr style="text-align: center;border: 1px solid green;width: 100% ;display: block;">
-                            <td class="record_detail" style="width: 70px;">
+                            <td class="record_detail" style="width: 5%;">
                                 <div>{{ forloop.counter }}</div>
                             </td>
-                            <td class="record_detail" style="width: 70px;">
+                            <td class="record_detail" style="width: 5%;">
                                 <div style="height: 38px;overflow: hidden;text-overflow: ellipsis" onclick="detail('{{ row.project }}')">{{ row.project }}</div>
                             </td>
-                            <td class="record_detail" style=";width: 150px;height: 38px">
+                            <td class="record_detail" style=";width: 10%;height: 38px">
                                 <div style="height: 38px;overflow: hidden;text-overflow: ellipsis" onclick="detail('{{ row.api_name}}')">{{ row.api_name }}</div>
                             </td>
-                            <td class="record_detail" style="width: 150px;height: 38px">
+                            <td class="record_detail" style="width: 10%;height: 38px">
                                 <div style="height: 38px;overflow: hidden;text-overflow: ellipsis" onclick="detail('{{ row.api_url}}')">{{ row.api_url }}</div>
                             </td>
-                            <td class="record_detail" style="width: 150px;height: 38px">
+                            <td class="record_detail" style="width: 10%;height: 38px">
                                 <div onclick="detail(JSON.stringify({{ row.api_data}}))" style="height: 38px;overflow: hidden;text-overflow: ellipsis" >{{ row.api_data }}</div>
                             </td>
-                            <td class="record_detail" style="width: 150px;height: 38px">
+                            <td class="record_detail" style="width: 10%;height: 38px">
                                 <div style="height: 38px;overflow: hidden;text-overflow: ellipsis" onclick="detail('{{ row.api_header}}')">{{ row.api_header }}</div>
                             </td>
-                            <td class="record_detail" style="width: 150px;height: 38px">
+                            <td class="record_detail" style="width: 10%;height: 38px">
                                 <div style="height: 38px;overflow: hidden;text-overflow: ellipsis" onclick="detail('{{ row.api_method}}')">{{ row.api_method }}</div>
                             </td>
-                            <td class="record_detail" style="width: 150px;height: 38px">
+                            <td class="record_detail" style="width: 10%;height: 38px">
                                 <div onclick="detail('{{ row.api_response}}')" style="height: 38px;overflow: hidden;text-overflow: ellipsis" >{{ row.api_response }}</div>
                             </td>
-                            <td class="record_detail" style="width: 100px;height: 38px">
+                            <td class="record_detail" style="width: 10%;height: 38px">
                                 <div style="height: 38px;overflow: hidden;text-overflow: ellipsis" onclick="detail('{{ row.api_code}}')">{{ row.api_code }}</div>
                             </td>
-                            <td class="record_detail" style="width: 220px;height: 38px">
+                            <td class="record_detail" style="width: 20%;height: 38px">
                                 <div style="height: 38px">{{ row.create_time }}</div>
                             </td>
                         </tr>
@@ -92,6 +92,9 @@
             </table>
 
 
+        </div>
+        <div style="position: relative;margin-top: 1%;text-align: left">
+            <a style="position: absolute" href="/page/main/select/?p=1" ><input type="button" value="返回"></a>
         </div>
 
 
@@ -108,7 +111,9 @@
             </div>
 
         </div>
+
     </div>
+
 {% endblock %}
 
 {% block js  %}
