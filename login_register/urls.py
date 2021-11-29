@@ -1,3 +1,6 @@
+# -*- coding:utf-8 -*-
+# author:liuhong
+
 """full_link_automation URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -15,13 +18,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from django.contrib import staticfiles
+from login_register import views
+
 
 urlpatterns = [
-    path('page/', include('cmdb.urls')),
-    path('login/', include('login_register.urls')),
+
+
+    path('main/', views.main),
 
 ]
-urlpatterns += staticfiles_urlpatterns()
-

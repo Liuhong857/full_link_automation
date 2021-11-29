@@ -4,7 +4,7 @@ from django.db import models
 import pymysql
 
 
-db = pymysql.connect(host='localhost', user='root', password='123456', port=3306, db='test',charset='utf8')
+db = pymysql.connect(host='47.101.155.169', user='root', password='123456', port=3306, db='full_link_automation',charset='utf8')
 cursor = db.cursor()
 
 def add_data(project,api_name,api_url,api_data,api_header,api_method):
